@@ -349,98 +349,227 @@ section { position: relative; }
 }
 .fashion-intro-right a:hover { gap: 1.2rem; }
 
+/* ── CATEGORY GRID ── */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5px;
+  margin-bottom: 4rem;
+}
+.cat-tile {
+  position: relative;
+  aspect-ratio: 1/1;
+  background: #161210;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.25s;
+}
+.cat-tile:hover, .cat-tile.active { border-color: var(--gold); }
+.cat-tile-inner {
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a1410 0%, #0d0b09 100%);
+  transition: background 0.3s;
+}
+.cat-tile.active .cat-tile-inner { background: rgba(201,168,76,0.08); }
+.cat-tile-icon { font-size: 1.8rem; opacity: 0.7; transition: opacity 0.2s; }
+.cat-tile:hover .cat-tile-icon, .cat-tile.active .cat-tile-icon { opacity: 1; }
+.cat-tile-name {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  transition: color 0.25s;
+}
+.cat-tile:hover .cat-tile-name { color: rgba(255,255,255,0.8); }
+.cat-tile.active .cat-tile-name { color: var(--gold); }
+.cat-tile-count {
+  font-family: var(--serif);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.2);
+  font-style: italic;
+}
+.cat-tile.active .cat-tile-count { color: rgba(201,168,76,0.5); }
+
+/* ── CATEGORY PANEL ── */
+.cat-panel { display: none; }
+.cat-panel.active { display: block; }
+.cat-panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+.cat-panel-title {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+}
+.cat-panel-sub {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ── PRODUCT GRID ── */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5px;
 }
 .product-card {
-  position: relative;
-  aspect-ratio: 3/4;
+  background: #161210;
   overflow: hidden;
-  background: #1a1612;
-  cursor: none;
 }
-.product-card-inner {
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.product-card-img {
+  aspect-ratio: 3/4;
+  width: 100%;
+  overflow: hidden;
   position: relative;
+  background: #1a1612;
+}
+.product-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
   transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
 }
-.product-card:hover .product-card-inner { transform: scale(1.03); }
-.product-img-placeholder {
+.product-card:hover .product-card-img img { transform: scale(1.04); }
+.img-placeholder {
   width: 100%; height: 100%;
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
 }
-.product-img-placeholder .icon-ph {
-  font-size: 3rem;
-  opacity: 0.08;
-  margin-bottom: 0.5rem;
-}
-.product-img-placeholder .ph-label {
+.img-placeholder .ph-icon { font-size: 2rem; opacity: 0.06; }
+.img-placeholder .ph-text {
   font-family: var(--mono);
-  font-size: 0.5rem;
+  font-size: 0.45rem;
   letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.06);
   text-transform: uppercase;
 }
-.product-overlay {
+.product-badge {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2rem;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.product-card:hover .product-overlay { opacity: 1; }
-.product-tag {
+  top: 0.8rem; left: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--gold);
   font-family: var(--mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.25em;
-  color: var(--gold);
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  color: var(--ink);
+  font-weight: 700;
+  z-index: 2;
 }
+.product-info { padding: 1rem 1.2rem 1.4rem; }
 .product-name {
   font-family: var(--serif);
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   font-weight: 300;
   color: var(--white);
-  line-height: 1.2;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+.product-sizes {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+.size-chip {
+  padding: 0.18rem 0.45rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.35);
+}
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 .product-price {
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.6);
-  margin-top: 0.5rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--gold);
 }
 .product-cta {
-  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  background: var(--gold);
   font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  color: var(--gold);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--ink);
   text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
 }
-
-/* Gradient bg per card */
-.card-bg-1 { background: linear-gradient(135deg, #1a0f00 0%, #2d1a05 100%); }
-.card-bg-2 { background: linear-gradient(135deg, #0a0a14 0%, #12122a 100%); }
-.card-bg-3 { background: linear-gradient(135deg, #0f0a0a 0%, #2a0f0f 100%); }
-.card-bg-4 { background: linear-gradient(135deg, #0a140a 0%, #0f2a0f 100%); }
-.card-bg-5 { background: linear-gradient(135deg, #14080a 0%, #2a0a14 100%); }
-.card-bg-6 { background: linear-gradient(135deg, #0a0f14 0%, #0a2040 100%); }
+.product-cta:hover { background: var(--gold-light); }
+.empty-state {
+  grid-column: 1/-1;
+  padding: 5rem 2rem;
+  text-align: center;
+  border: 1px dashed rgba(201,168,76,0.1);
+}
+.empty-state p {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.18);
+  margin-bottom: 0.6rem;
+}
+.empty-state span {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.1);
+}
+.cycle-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1);
+  margin-bottom: 3rem;
+}
+.cycle-text {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cycle-date {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+}
 
 /* ── HOW TO ORDER ── */
 .order-strip {
@@ -975,6 +1104,8 @@ footer {
   .nav-links { display: none; }
   #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
   .fashion-intro { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 1px; }
+  .cat-tile-icon { font-size: 1.4rem; }
   .products-grid { grid-template-columns: 1fr 1fr; }
   .tech-layout { grid-template-columns: 1fr; gap: 3rem; }
   .services-grid { grid-template-columns: 1fr; }
@@ -1094,103 +1225,235 @@ footer {
       <p class="section-label" style="color:var(--gold)">— Sorah Fashion</p>
       <h2 class="section-title" style="color:var(--white)">Curated for the<br><em>bold woman.</em></h2>
       <p style="color:rgba(255,255,255,0.5);font-size:0.95rem;line-height:1.8;margin-top:1.5rem">
-        We source quality women's fashion through a preorder model — meaning every piece is ordered to fit you, with no excess, no waste. International styles. Delivered with love to Kampala and beyond.
+        Quality women's fashion on preorder — every piece sourced to fit you, no excess, no waste. New items drop weekly. DM to order.
       </p>
     </div>
     <div class="fashion-intro-right">
-      <a href="https://instagram.com/sorah_ug" target="_blank">
-        Shop on Instagram &nbsp; →
-      </a>
+      <a href="https://instagram.com/sorah_ug" target="_blank">Shop on Instagram &nbsp;→</a>
     </div>
   </div>
 
-  <div class="products-grid reveal">
-    <div class="product-card card-bg-1">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">👗</div>
-          <div class="ph-label">Add product photo</div>
+  <!-- Cycle banner -->
+  <div class="cycle-banner reveal">
+    <span class="cycle-text">⬤ &nbsp; Preorder Cycle — Now Open</span>
+    <span class="cycle-date">New items weekly &nbsp;·&nbsp; Delivery: 2–3 weeks after order</span>
+  </div>
+
+  <!-- Category Grid -->
+  <div class="cat-grid reveal" id="catGrid">
+    <div class="cat-tile active" data-cat="dresses">
+      <div class="cat-tile-inner">
+        <div class="cat-tile-icon">👗</div>
+        <div class="cat-tile-name">Dresses</div>
+        <div class="cat-tile-count">2 items</div>
+      </div>
+    </div>
+    <div class="cat-tile" data-cat="sets">
+      <div class="cat-tile-inner">
+        <div class="cat-tile-icon">🧣</div>
+        <div class="cat-tile-name">Sets</div>
+        <div class="cat-tile-count">2 items</div>
+      </div>
+    </div>
+    <div class="cat-tile" data-cat="shoes">
+      <div class="cat-tile-inner">
+        <div class="cat-tile-icon">👠</div>
+        <div class="cat-tile-name">Shoes</div>
+        <div class="cat-tile-count">1 item</div>
+      </div>
+    </div>
+    <div class="cat-tile" data-cat="bags">
+      <div class="cat-tile-inner">
+        <div class="cat-tile-icon">👜</div>
+        <div class="cat-tile-name">Bags</div>
+        <div class="cat-tile-count">2 items</div>
+      </div>
+    </div>
+    <div class="cat-tile" data-cat="jewellery">
+      <div class="cat-tile-inner">
+        <div class="cat-tile-icon">💍</div>
+        <div class="cat-tile-name">Jewellery</div>
+        <div class="cat-tile-count">1 item</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRESSES -->
+  <div class="cat-panel active" id="cat-dresses">
+    <div class="cat-panel-header">
+      <span class="cat-panel-title">Dresses</span>
+      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">👗</div><div class="ph-text">Add product photo</div></div>
+          <span class="product-badge">New</span>
         </div>
-        <div class="product-overlay">
-          <div class="product-tag">New Arrival</div>
+        <div class="product-info">
           <div class="product-name">Satin Midi Dress</div>
-          <div class="product-price">From UGX 180,000</div>
-          <a href="https://instagram.com/sorah_ug" class="product-cta">Order via DM →</a>
+          <div class="product-sizes"><span class="size-chip">XS</span><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 180,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-card card-bg-2">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">👔</div>
-          <div class="ph-label">Add product photo</div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">👗</div><div class="ph-text">Add product photo</div></div>
+          <span class="product-badge">Limited</span>
         </div>
-        <div class="product-overlay">
-          <div class="product-tag">Bestseller</div>
-          <div class="product-name">Co-ord Sets</div>
-          <div class="product-price">From UGX 220,000</div>
-          <a href="https://instagram.com/sorah_ug" class="product-cta">Order via DM →</a>
-        </div>
-      </div>
-    </div>
-    <div class="product-card card-bg-3">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">👒</div>
-          <div class="ph-label">Add product photo</div>
-        </div>
-        <div class="product-overlay">
-          <div class="product-tag">Accessories</div>
-          <div class="product-name">Statement Bags</div>
-          <div class="product-price">From UGX 95,000</div>
-          <a href="https://instagram.com/sorah_ug" class="product-cta">Order via DM →</a>
+        <div class="product-info">
+          <div class="product-name">Ruched Mini Dress</div>
+          <div class="product-sizes"><span class="size-chip">XS</span><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 155,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-card card-bg-4">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">🧥</div>
-          <div class="ph-label">Add product photo</div>
-        </div>
-        <div class="product-overlay">
-          <div class="product-tag">Preorder Open</div>
-          <div class="product-name">Blazer Collection</div>
-          <div class="product-price">From UGX 260,000</div>
-          <a href="https://instagram.com/sorah_ug" class="product-cta">Order via DM →</a>
-        </div>
+      <div class="product-card" style="background:transparent;border:1px dashed rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;min-height:200px">
+        <div style="font-size:1.5rem;opacity:0.1">+</div>
+        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.2em;color:rgba(255,255,255,0.1);text-transform:uppercase">More dropping weekly</div>
       </div>
     </div>
-    <div class="product-card card-bg-5">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">👠</div>
-          <div class="ph-label">Add product photo</div>
+  </div>
+
+  <!-- SETS -->
+  <div class="cat-panel" id="cat-sets">
+    <div class="cat-panel-header">
+      <span class="cat-panel-title">Sets</span>
+      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">🧣</div><div class="ph-text">Add product photo</div></div>
+          <span class="product-badge">Bestseller</span>
         </div>
-        <div class="product-overlay">
-          <div class="product-tag">Limited</div>
-          <div class="product-name">Evening Wear</div>
-          <div class="product-price">From UGX 350,000</div>
-          <a href="https://instagram.com/sorah_ug" class="product-cta">Order via DM →</a>
+        <div class="product-info">
+          <div class="product-name">Linen Co-ord Set</div>
+          <div class="product-sizes"><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 220,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-card card-bg-6">
-      <div class="product-card-inner">
-        <div class="product-img-placeholder">
-          <div class="icon-ph">✨</div>
-          <div class="ph-label">Add product photo</div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">🧣</div><div class="ph-text">Add product photo</div></div>
         </div>
-        <div class="product-overlay">
-          <div class="product-tag">Coming Soon</div>
-          <div class="product-name">New Cycle Drop</div>
-          <div class="product-price">Join the waitlist</div>
-          <a href="#contact" class="product-cta">Get notified →</a>
+        <div class="product-info">
+          <div class="product-name">Blazer & Wide Leg Set</div>
+          <div class="product-sizes"><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 280,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" style="background:transparent;border:1px dashed rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;min-height:200px">
+        <div style="font-size:1.5rem;opacity:0.1">+</div>
+        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.2em;color:rgba(255,255,255,0.1);text-transform:uppercase">More dropping weekly</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOES -->
+  <div class="cat-panel" id="cat-shoes">
+    <div class="cat-panel-header">
+      <span class="cat-panel-title">Shoes</span>
+      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">👠</div><div class="ph-text">Add product photo</div></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Block Heel Mules</div>
+          <div class="product-sizes"><span class="size-chip">36</span><span class="size-chip">37</span><span class="size-chip">38</span><span class="size-chip">39</span><span class="size-chip">40</span><span class="size-chip">41</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 130,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state">
+        <p>More shoes coming soon.</p>
+        <span>DM to request a style</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAGS -->
+  <div class="cat-panel" id="cat-bags">
+    <div class="cat-panel-header">
+      <span class="cat-panel-title">Bags</span>
+      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">👜</div><div class="ph-text">Add product photo</div></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Mini Croc Tote</div>
+          <div class="product-sizes"><span class="size-chip">One Size</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 95,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">👛</div><div class="ph-text">Add product photo</div></div>
+          <span class="product-badge">Coming Soon</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Quilted Chain Bag</div>
+          <div class="product-sizes"><span class="size-chip">One Size</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 120,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Notify Me</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- JEWELLERY -->
+  <div class="cat-panel" id="cat-jewellery">
+    <div class="cat-panel-header">
+      <span class="cat-panel-title">Jewellery</span>
+      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <div class="img-placeholder"><div class="ph-icon">💍</div><div class="ph-text">Add product photo</div></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Gold Layered Necklace Set</div>
+          <div class="product-sizes"><span class="size-chip">One Size</span></div>
+          <div class="product-footer">
+            <div class="product-price">UGX 45,000</div>
+            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state">
+        <p>More jewellery dropping weekly.</p>
+        <span>Rings, earrings, bracelets & more</span>
+      </div>
+    </div>
+  </div>
+
+
+</section>>
 
 <!-- Order Strip -->
 <div class="order-strip">
@@ -1397,7 +1660,7 @@ footer {
       </div>
       <div class="contact-item">
         <span class="contact-type">Email</span>
-        <a href="mailto:hello@sorah.ug" class="contact-value">hello@sorah.ug</a>
+        <a href="/cdn-cgi/l/email-protection#3c54595050537c4f534e5d5412495b" class="contact-value"><span class="__cf_email__" data-cfemail="1078757c7c7f50637f6271783e6577">[email&#160;protected]</span></a>
       </div>
       <div class="contact-item">
         <span class="contact-type">For IT / Tech Work</span>
@@ -1463,7 +1726,7 @@ footer {
   <div class="footer-copy">© 2026 Sorah · Fashion & Technology · Kampala, Uganda</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Cursor
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1541,18 +1804,20 @@ function submitForm() {
   setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 5000);
 }
 
-// ── Smooth active nav highlight
+// ── Category Grid
+document.querySelectorAll('.cat-tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const cat = tile.dataset.cat;
+    document.querySelectorAll('.cat-tile').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+    tile.classList.add('active');
+    document.getElementById('cat-' + cat).classList.add('active');
+    document.getElementById('cat-' + cat).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+});
+
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 200) current = s.getAttribute('id');
-  });
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + current
-      ? 'var(--gold)' : 'rgba(255,255,255,0.75)';
-  });
-});
-</script>
-</body>
-</html>
+    if (window.scrollY >= s.offsetTop - 200) current = s
