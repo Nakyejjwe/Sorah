@@ -1,1823 +1,698 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SORAH — Fashion & Technology</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sorah: pre-order women's fashion in Kampala. Weekly drops, personal shopping from SHEIN, PLT, Temu and Amazon, delivered to your door.">
+<meta property="og:title" content="Sorah · Aesthetic Finds">
+<meta property="og:description" content="Pre-order women's fashion in Kampala. Order on WhatsApp.">
+<meta name="theme-color" content="#5e3446">
+<title>Sorah Online Store</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&display=swap">
 <style>
-:root {
-  --ink: #0a0a0a;
-  --bone: #f5f0e8;
-  --gold: #c9a84c;
-  --gold-light: #e8d5a3;
-  --electric: #1a1aff;
-  --white: #ffffff;
-  --grey: #888;
-  --light-grey: #f0ede8;
-  --fashion-bg: #0d0b09;
-  --tech-bg: #f8f7f5;
-  --serif: 'Cormorant Garamond', Georgia, serif;
-  --sans: 'DM Sans', sans-serif;
-  --mono: 'Space Mono', monospace;
+/* Layout: boutique storefront — sticky shop bar, category rail, editorial hero, product grids, slide-in bag + checkout that sends the order to WhatsApp */
+:root{
+  --bg:#fbf6f3; --surface:#ffffff; --blush:#f3dfdc; --mauve:#8e5a6e; --mauve-deep:#5e3446;
+  --ink:#2b1f24; --muted:#7b6a70; --line:#ead9d6; --gold:#b48a4a; --sale:#b23a48;
+  --f-script:"Pinyon Script","Great Vibes",cursive;
+  --f-display:"Libre Baskerville",Georgia,"Times New Roman",serif;
+  --f-body:"Jost","Helvetica Neue",Arial,sans-serif;
 }
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1c1518; --surface:#261c20; --blush:#3a2a30; --mauve:#d7a6b9; --mauve-deep:#f0cdd9;
+  --ink:#f5eaee; --muted:#b9a5ad; --line:#3d2e34; --gold:#d6b071; --sale:#f07f8c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1518; --surface:#261c20; --blush:#3a2a30; --mauve:#d7a6b9; --mauve-deep:#f0cdd9;
+  --ink:#f5eaee; --muted:#b9a5ad; --line:#3d2e34; --gold:#d6b071; --sale:#f07f8c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--mauve);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mauve);font-weight:500}
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* announcement + header */
+.announce{background:var(--mauve-deep);color:var(--bg);font-size:13px;letter-spacing:.04em;text-align:center}
+.announce .wrap{padding-block:8px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;padding-block:12px}
+.logo{font-family:var(--f-script);font-size:38px;line-height:1;color:var(--mauve-deep);text-decoration:none;flex:none}
+.logo small{display:block;font-family:var(--f-body);font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-top:-4px;padding-left:4px}
+.search{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.search input{border:0;background:transparent;outline:0;font:inherit;color:var(--ink);width:100%;min-width:0}
+.icon-btn{position:relative;background:none;border:0;padding:8px;display:grid;place-items:center;border-radius:50%}
+.icon-btn:hover{background:var(--blush)}
+.count{position:absolute;top:0;right:0;background:var(--mauve);color:var(--surface);font-size:11px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;font-weight:600}
+.cats{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
+.cats::-webkit-scrollbar{display:none}
+.cats button{flex:none;background:none;border:1px solid transparent;border-radius:999px;padding:6px 14px;font-size:14px;color:var(--muted)}
+.cats button:hover{color:var(--ink)}
+.cats button[aria-pressed="true"]{border-color:var(--mauve);color:var(--mauve-deep);background:var(--blush)}
+.cats .clear{color:var(--sale)}
 
-html { scroll-behavior: smooth; }
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center;padding-block:40px 24px}
+.hero h1{font-size:clamp(30px,4.6vw,52px);line-height:1.12;margin:10px 0 14px}
+.hero h1 em{font-family:var(--f-script);font-style:normal;color:var(--mauve);font-size:1.25em}
+.hero p{color:var(--muted);max-width:46ch;margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--mauve-deep);background:var(--mauve-deep);color:var(--bg);padding:12px 24px;border-radius:999px;font-weight:500;letter-spacing:.02em;text-decoration:none}
+.btn:hover{background:var(--mauve);border-color:var(--mauve)}
+.btn.ghost{background:transparent;color:var(--mauve-deep)}
+.btn.ghost:hover{background:var(--blush)}
+.btn.block{width:100%}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.how{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;font-size:13px;color:var(--muted)}
+.how b{display:block;color:var(--ink);font-weight:500;font-size:14px}
+.how div{min-width:0}
+.hero-art{position:relative;aspect-ratio:1/1;max-width:100%;border-radius:200px 200px 24px 24px;background:var(--blush);overflow:hidden;display:grid;place-items:end center}
+.hero-art svg{width:78%;height:auto}
+.hero-art .tag{position:absolute;top:22%;left:-6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13px;box-shadow:0 8px 24px rgba(94,52,70,.12)}
+.hero-art .tag b{font-family:var(--f-display);font-weight:400;font-size:16px;display:block}
 
-body {
-  font-family: var(--sans);
-  background: var(--bone);
-  color: var(--ink);
-  overflow-x: hidden;
-  cursor: none;
-}
+/* sections */
+section.block{padding-block:28px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.head h2{font-size:26px;margin-top:4px}
+.link{background:none;border:0;color:var(--mauve);text-decoration:underline;text-underline-offset:3px;padding:0;font-size:14px}
+.collections{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.col{border:0;background:none;padding:0;text-align:left}
+.col .ph{aspect-ratio:3/4;border-radius:14px;display:grid;place-items:center;overflow:hidden;transition:transform .25s}
+.col:hover .ph{transform:translateY(-3px)}
+.col .ph svg{width:62%}
+.col span{display:block;margin-top:8px;font-family:var(--f-display);font-size:15px}
+.col small{color:var(--muted);font-size:12px}
 
-/* ── CUSTOM CURSOR ── */
-.cursor {
-  position: fixed;
-  width: 10px; height: 10px;
-  background: var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease, background 0.3s;
-  transform: translate(-50%, -50%);
-}
-.cursor-ring {
-  position: fixed;
-  width: 36px; height: 36px;
-  border: 1px solid var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.3s;
-  transform: translate(-50%, -50%);
-  opacity: 0.6;
-}
-body:hover .cursor { opacity: 1; }
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 16px}
+.card{display:flex;flex-direction:column;min-width:0}
+.card .ph{position:relative;aspect-ratio:4/5;border-radius:14px;display:grid;place-items:center;overflow:hidden;border:0;padding:0;width:100%}
+.card .ph svg{width:58%;transition:transform .3s}
+.card .ph:hover svg{transform:scale(1.05)}
+.badge{position:absolute;top:10px;left:10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--surface);color:var(--mauve-deep);font-weight:600}
+.badge.sale{background:var(--sale);color:#fff}
+.heart{position:absolute;top:8px;right:8px;background:var(--surface);border:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+.heart[aria-pressed="true"] path{fill:var(--sale);stroke:var(--sale)}
+.card h3{font-family:var(--f-body);font-size:14px;font-weight:400;margin:10px 0 2px;line-height:1.35}
+.card .src{font-size:12px;color:var(--muted)}
+.price{font-variant-numeric:tabular-nums;font-weight:600;margin-top:4px}
+.price s{color:var(--muted);font-weight:400;margin-left:6px;font-size:13px}
+.card .add{margin-top:10px;background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px;font-size:13px;font-weight:500}
+.card .add:hover{border-color:var(--mauve);background:var(--blush)}
+.empty{color:var(--muted);padding:30px 0;text-align:center;grid-column:1/-1}
 
-/* ── NAV ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.4rem 3rem;
-  mix-blend-mode: normal;
-  transition: background 0.4s, backdrop-filter 0.4s;
-}
-nav.scrolled {
-  background: rgba(10,10,10,0.85);
-  backdrop-filter: blur(12px);
-}
-.nav-logo {
-  font-family: var(--serif);
-  font-size: 1.8rem;
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  color: var(--white);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.nav-logo span { color: var(--gold); }
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-  list-style: none;
-}
-.nav-links a {
-  font-family: var(--sans);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--gold); }
+.promise{background:var(--surface);border-block:1px solid var(--line);margin-top:20px}
+.promise .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-block:26px}
+.promise b{font-family:var(--f-display);font-weight:400;font-size:16px;display:block}
+.promise span{font-size:13px;color:var(--muted)}
 
-/* ── HERO ── */
-#hero {
-  height: 100vh;
-  background: var(--fashion-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero-bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-.hero-bg-glow {
-  position: absolute;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  animation: pulse 6s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); }
-}
-.hero-content {
-  text-align: center;
-  z-index: 2;
-  position: relative;
-}
-.hero-eyebrow {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.4em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.3s;
-}
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(5rem, 15vw, 12rem);
-  font-weight: 300;
-  color: var(--white);
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-  opacity: 0;
-  animation: fadeUp 1.2s ease forwards 0.6s;
-}
-.hero-title em {
-  font-style: italic;
-  color: var(--gold);
-}
-.hero-sub {
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  color: rgba(255,255,255,0.5);
-  text-transform: uppercase;
-  margin-top: 1.5rem;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.9s;
-}
-.hero-ctas {
-  margin-top: 3rem;
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 1.2s;
-}
-.btn-gold {
-  padding: 0.85rem 2.5rem;
-  background: var(--gold);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.25s, transform 0.2s;
-}
-.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
-.btn-outline {
-  padding: 0.85rem 2.5rem;
-  border: 1px solid rgba(255,255,255,0.25);
-  color: rgba(255,255,255,0.75);
-  font-family: var(--sans);
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: border-color 0.25s, color 0.25s;
-}
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+/* contact */
+.contact{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding-block:36px}
+.contact h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mauve);margin:0 0 8px;font-weight:500}
+.contact p{margin:0 0 4px;font-size:14px}
+.contact a{color:var(--ink)}
+.copy{background:none;border:1px solid var(--line);border-radius:999px;font-size:12px;padding:3px 10px;margin-top:6px}
+footer{border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{padding-block:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-.hero-scroll {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 1.8s;
-}
-.hero-scroll span {
-  font-family: var(--mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.3);
-  text-transform: uppercase;
-}
-.scroll-line {
-  width: 1px;
-  height: 50px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: scrollDrop 2s ease-in-out infinite;
-}
-@keyframes scrollDrop {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  51% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
-}
+/* drawers & modal */
+.scrim{position:fixed;inset:0;background:rgba(30,15,22,.45);z-index:70}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--surface);z-index:80;display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) 20px;transform:translateX(100%);transition:transform .3s ease}
+.drawer.open{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.dhead h2{font-size:22px}
+.dbody{flex:1;overflow-y:auto;padding-block:12px;min-height:0}
+.line{display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding-block:12px;border-bottom:1px solid var(--line);align-items:center}
+.line .ph{width:64px;height:80px;border-radius:10px;display:grid;place-items:center}
+.line .ph svg{width:70%}
+.line h3{font-family:var(--f-body);font-size:14px;font-weight:500;line-height:1.3}
+.line small{color:var(--muted);display:block}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;margin-top:6px}
+.qty button{background:none;border:0;width:28px;height:28px}
+.qty span{min-width:20px;text-align:center;font-variant-numeric:tabular-nums}
+.rm{background:none;border:0;color:var(--muted);font-size:12px;text-decoration:underline}
+.dfoot{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:10px}
+.row{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.row.total{font-weight:600;font-size:17px}
+.note{font-size:12px;color:var(--muted)}
+form.co{display:grid;gap:12px}
+label{font-size:13px;font-weight:500;display:grid;gap:5px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+textarea{resize:vertical;min-height:60px}
+.err{color:var(--sale);font-size:13px}
+.msg{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;max-height:220px;overflow:auto}
 
-/* ── SECTION BASE ── */
-section { position: relative; }
+.modal{position:fixed;z-index:80;inset:0;display:grid;place-items:center;padding:16px;pointer-events:none}
+.mbox{pointer-events:auto;background:var(--surface);border-radius:20px;max-width:820px;width:100%;max-height:calc(100% - 32px);overflow:auto;display:grid;grid-template-columns:1fr 1fr}
+.mbox .ph{display:grid;place-items:center;min-height:320px;position:relative}
+.mbox .ph svg{width:62%}
+.mbox .info{padding:26px;display:grid;gap:12px;align-content:start;min-width:0}
+.mbox h2{font-size:24px}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}
+.sizes button{min-width:44px;height:40px;border:1px solid var(--line);background:var(--bg);border-radius:10px;font-size:13px;font-weight:500}
+.sizes button[aria-pressed="true"]{border-color:var(--mauve-deep);background:var(--mauve-deep);color:var(--bg)}
+.close{position:absolute;top:10px;right:10px;background:var(--surface);border:0;width:36px;height:36px;border-radius:50%}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--mauve-deep);color:var(--bg);padding:10px 20px;border-radius:999px;font-size:14px;z-index:90;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 
-.section-label {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-.section-title {
-  font-family: var(--serif);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-}
-.section-title em { font-style: italic; }
+/* utility bar */
+.util{background:var(--mauve-deep);color:var(--bg);font-size:13px}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;gap:6px 16px;padding-block:7px;flex-wrap:wrap}
+.util a,.util button{color:inherit;background:none;border:0;padding:0;text-decoration:none;font-size:13px}
+.util nav{display:flex;gap:16px;flex-wrap:wrap}
+.util button:hover,.util a:hover{text-decoration:underline}
 
-/* ── ABOUT / BRAND ── */
-#about {
-  background: var(--fashion-bg);
-  padding: 8rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6rem;
-  align-items: center;
-}
-#about .section-label { color: var(--gold); }
-#about .section-title { color: var(--white); }
-.about-text {
-  font-family: var(--sans);
-  font-size: 1rem;
-  line-height: 1.85;
-  color: rgba(255,255,255,0.55);
-  margin-top: 1.5rem;
-}
-.about-text strong { color: var(--gold); font-weight: 500; }
-.about-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-.stat-block {
-  border-top: 1px solid rgba(201,168,76,0.2);
-  padding-top: 1.5rem;
-}
-.stat-num {
-  font-family: var(--serif);
-  font-size: 3rem;
-  font-weight: 300;
-  color: var(--gold);
-  line-height: 1;
-}
-.stat-lbl {
-  font-family: var(--sans);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.35);
-  margin-top: 0.4rem;
-  text-transform: uppercase;
-}
+/* services, steps, pricing */
+.svc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.svc article{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.svc h3{font-size:18px}
+.svc p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.svc .link{align-self:flex-start}
+.svc .ico{width:40px;height:40px;border-radius:12px;background:var(--blush);display:grid;place-items:center;color:var(--mauve-deep)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;padding:0;margin:0;counter-reset:s}
+.steps li{list-style:none;border-top:2px solid var(--mauve);padding-top:14px;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);font-family:var(--f-display);font-size:30px;color:var(--mauve);display:block;line-height:1;margin-bottom:8px}
+.steps b{display:block;font-weight:500;margin-bottom:4px}
+.steps span{color:var(--muted);font-size:14px}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:10px;align-content:start}
+.plan.feature{border-color:var(--mauve)}
+.plan .big{font-family:var(--f-display);font-size:28px;color:var(--mauve-deep)}
+.plan ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;display:grid;gap:4px}
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rev{border:1.5px dashed var(--line);border-radius:16px;padding:20px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+.rev .stars{color:var(--gold);letter-spacing:2px}
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;font-family:var(--f-display);font-size:17px;padding-block:16px;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--mauve);font-family:var(--f-body);font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq p{margin:0 0 16px;color:var(--muted);max-width:65ch}
+.cta{background:var(--blush);border-radius:24px;padding:36px 20px;text-align:center;display:grid;gap:12px;justify-items:center}
+.cta h2{font-size:clamp(24px,3.4vw,34px)}
+.cta h2 em{font-family:var(--f-script);font-style:normal;color:var(--mauve);font-size:1.25em}
 
-/* ── DIVIDER ── */
-.world-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  opacity: 0.4;
-}
+/* tracking */
+.ord{border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;margin-bottom:12px}
+.ord header{position:static;background:none;border:0;display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.stages{display:grid;gap:8px;font-size:14px}
+.stage{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.stage span:first-child{display:flex;gap:10px;align-items:center}
+.stage i{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);flex:none}
+.stage.on i{background:var(--mauve);border-color:var(--mauve)}
+.stage small{color:var(--muted);font-variant-numeric:tabular-nums}
 
-/* ── FASHION SECTION ── */
-#fashion {
-  background: var(--fashion-bg);
-  padding: 8rem 3rem;
+/* mobile tab bar */
+.tabbar{display:none}
+@media (max-width:860px){
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  .tabbar button{background:none;border:0;display:grid;justify-items:center;gap:2px;font-size:11px;color:var(--muted);position:relative;padding:4px}
+  .tabbar button:hover{color:var(--mauve-deep)}
+  .tabbar .count{right:calc(50% - 20px)}
+  body{padding-bottom:68px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .svc,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .revs{grid-template-columns:1fr}
 }
-#fashion .section-label { color: var(--gold); }
-#fashion .section-title { color: var(--white); }
-.fashion-intro {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 4rem;
-  align-items: end;
-  margin-bottom: 5rem;
-}
-.fashion-intro p {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.5);
-  margin-top: 1.5rem;
-}
-.fashion-intro-right {
-  text-align: right;
-}
-.fashion-intro-right a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-decoration: none;
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: 0.25rem;
-  transition: gap 0.2s;
-}
-.fashion-intro-right a:hover { gap: 1.2rem; }
+@media (max-width:520px){.svc,.plans{grid-template-columns:1fr}.util nav{display:none}}
 
-/* ── CATEGORY GRID ── */
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5px;
-  margin-bottom: 4rem;
-}
-.cat-tile {
-  position: relative;
-  aspect-ratio: 1/1;
-  background: #161210;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 0.25s;
-}
-.cat-tile:hover, .cat-tile.active { border-color: var(--gold); }
-.cat-tile-inner {
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  padding: 1rem;
-  background: linear-gradient(135deg, #1a1410 0%, #0d0b09 100%);
-  transition: background 0.3s;
-}
-.cat-tile.active .cat-tile-inner { background: rgba(201,168,76,0.08); }
-.cat-tile-icon { font-size: 1.8rem; opacity: 0.7; transition: opacity 0.2s; }
-.cat-tile:hover .cat-tile-icon, .cat-tile.active .cat-tile-icon { opacity: 1; }
-.cat-tile-name {
-  font-family: var(--mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  text-align: center;
-  transition: color 0.25s;
-}
-.cat-tile:hover .cat-tile-name { color: rgba(255,255,255,0.8); }
-.cat-tile.active .cat-tile-name { color: var(--gold); }
-.cat-tile-count {
-  font-family: var(--serif);
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.2);
-  font-style: italic;
-}
-.cat-tile.active .cat-tile-count { color: rgba(201,168,76,0.5); }
-
-/* ── CATEGORY PANEL ── */
-.cat-panel { display: none; }
-.cat-panel.active { display: block; }
-.cat-panel-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(201,168,76,0.12);
-}
-.cat-panel-title {
-  font-family: var(--serif);
-  font-size: 2rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--white);
-}
-.cat-panel-sub {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-}
-
-/* ── PRODUCT GRID ── */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5px;
-}
-.product-card {
-  background: #161210;
-  overflow: hidden;
-}
-.product-card-img {
-  aspect-ratio: 3/4;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  background: #1a1612;
-}
-.product-card-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
-}
-.product-card:hover .product-card-img img { transform: scale(1.04); }
-.img-placeholder {
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-}
-.img-placeholder .ph-icon { font-size: 2rem; opacity: 0.06; }
-.img-placeholder .ph-text {
-  font-family: var(--mono);
-  font-size: 0.45rem;
-  letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.06);
-  text-transform: uppercase;
-}
-.product-badge {
-  position: absolute;
-  top: 0.8rem; left: 0.8rem;
-  padding: 0.25rem 0.6rem;
-  background: var(--gold);
-  font-family: var(--mono);
-  font-size: 0.48rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 700;
-  z-index: 2;
-}
-.product-info { padding: 1rem 1.2rem 1.4rem; }
-.product-name {
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.25;
-  margin-bottom: 0.6rem;
-}
-.product-sizes {
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.9rem;
-}
-.size-chip {
-  padding: 0.18rem 0.45rem;
-  border: 1px solid rgba(255,255,255,0.1);
-  font-family: var(--mono);
-  font-size: 0.48rem;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.35);
-}
-.product-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-.product-price {
-  font-family: var(--serif);
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--gold);
-}
-.product-cta {
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
-  background: var(--gold);
-  font-family: var(--mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.2s;
-}
-.product-cta:hover { background: var(--gold-light); }
-.empty-state {
-  grid-column: 1/-1;
-  padding: 5rem 2rem;
-  text-align: center;
-  border: 1px dashed rgba(201,168,76,0.1);
-}
-.empty-state p {
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  font-style: italic;
-  color: rgba(255,255,255,0.18);
-  margin-bottom: 0.6rem;
-}
-.empty-state span {
-  font-family: var(--mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.1);
-}
-.cycle-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: rgba(201,168,76,0.04);
-  border: 1px solid rgba(201,168,76,0.1);
-  margin-bottom: 3rem;
-}
-.cycle-text {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.cycle-date {
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.3);
-}
-
-/* ── HOW TO ORDER ── */
-.order-strip {
-  background: var(--gold);
-  padding: 3rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr repeat(4, auto) 1fr;
-  align-items: center;
-  gap: 0;
-}
-.order-title {
-  font-family: var(--serif);
-  font-size: 1.8rem;
-  font-weight: 300;
-  color: var(--ink);
-}
-.order-steps {
-  grid-column: 2 / 6;
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-.order-step {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-.step-num {
-  width: 40px; height: 40px;
-  border: 1.5px solid var(--ink);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--ink);
-  flex-shrink: 0;
-}
-.step-text {
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--ink);
-  white-space: nowrap;
-}
-.step-arrow {
-  padding: 0 1.5rem;
-  color: rgba(10,10,10,0.3);
-  font-size: 1rem;
-}
-.order-cta-wrap { text-align: right; }
-.order-cta-wrap a {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background: var(--ink);
-  color: var(--gold);
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.order-cta-wrap a:hover { background: #222; }
-
-/* ── TECH SECTION ── */
-#tech {
-  background: var(--tech-bg);
-  padding: 9rem 3rem;
-}
-#tech .section-label { color: var(--electric); }
-#tech .section-title { color: var(--ink); }
-.tech-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 6rem;
-  margin-top: 4rem;
-}
-.tech-intro p {
-  font-size: 0.95rem;
-  line-height: 1.85;
-  color: #555;
-  margin-top: 1rem;
-}
-.tech-intro .tech-badge {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.5rem 1.2rem;
-  border: 1px solid var(--electric);
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  color: var(--electric);
-  text-transform: uppercase;
-}
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-}
-.service-card {
-  padding: 2.5rem;
-  border: 1px solid #e0ddd8;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, background 0.3s;
-  cursor: none;
-}
-.service-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  transform: translateY(100%);
-  transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
-}
-.service-card:hover::before { transform: translateY(0); }
-.service-card:hover .service-icon,
-.service-card:hover .service-name,
-.service-card:hover .service-desc,
-.service-card:hover .service-rate { color: white; }
-.service-card:hover .service-name { color: var(--gold); }
-.service-card > * { position: relative; z-index: 1; }
-
-.service-icon {
-  font-size: 1.4rem;
-  margin-bottom: 1.2rem;
-  transition: color 0.3s;
-}
-.service-name {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 0.75rem;
-  transition: color 0.3s;
-}
-.service-desc {
-  font-size: 0.82rem;
-  line-height: 1.7;
-  color: #777;
-  transition: color 0.3s;
-}
-.service-rate {
-  margin-top: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  color: var(--electric);
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-/* ── DIGITAL PRODUCTS ── */
-#digital {
-  background: var(--bone);
-  padding: 8rem 3rem;
-}
-#digital .section-label { color: #888; }
-#digital .section-title { color: var(--ink); }
-
-.dp-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: end;
-  margin-bottom: 4rem;
-}
-.dp-header p {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: #666;
-  margin-top: 1rem;
-}
-
-.dp-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-.dp-card {
-  padding: 2.5rem 2rem;
-  background: var(--white);
-  border: 1px solid #e8e4dc;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: none;
-}
-.dp-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-}
-.dp-card-accent {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-}
-.dp-num {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  color: #bbb;
-  margin-bottom: 1.5rem;
-}
-.dp-icon { font-size: 2rem; margin-bottom: 1rem; }
-.dp-name {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
-}
-.dp-desc {
-  font-size: 0.82rem;
-  line-height: 1.7;
-  color: #777;
-}
-.dp-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 2rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid #f0ede8;
-}
-.dp-price {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  font-weight: 300;
-  color: var(--ink);
-}
-.dp-btn {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 2px;
-  transition: color 0.2s, border-color 0.2s;
-}
-.dp-btn:hover { color: var(--gold); border-color: var(--gold); }
-
-/* ── TESTIMONIALS ── */
-#testimonials {
-  background: var(--fashion-bg);
-  padding: 7rem 3rem;
-  overflow: hidden;
-}
-.testimonials-inner {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 5rem;
-  align-items: start;
-}
-#testimonials .section-label { color: var(--gold); }
-#testimonials .section-title { color: var(--white); }
-
-.testimonial-slider {
-  position: relative;
-}
-.testimonial-cards {
-  display: flex;
-  gap: 1.5rem;
-  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
-}
-.t-card {
-  flex: 0 0 calc(50% - 0.75rem);
-  padding: 2.5rem;
-  border: 1px solid rgba(201,168,76,0.15);
-  background: rgba(201,168,76,0.03);
-  position: relative;
-}
-.t-card::before {
-  content: '"';
-  position: absolute;
-  top: -0.5rem;
-  left: 2rem;
-  font-family: var(--serif);
-  font-size: 6rem;
-  color: var(--gold);
-  opacity: 0.15;
-  line-height: 1;
-}
-.t-quote {
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  font-style: italic;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.75;
-  position: relative;
-  z-index: 1;
-}
-.t-author {
-  margin-top: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-.t-role {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.3);
-  margin-top: 0.2rem;
-  font-family: var(--sans);
-}
-.slider-controls {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-.slider-btn {
-  width: 44px; height: 44px;
-  border: 1px solid rgba(201,168,76,0.3);
-  background: none;
-  color: var(--gold);
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: none;
-  transition: background 0.2s, border-color 0.2s;
-}
-.slider-btn:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-
-/* ── CONTACT ── */
-#contact {
-  background: var(--tech-bg);
-  padding: 9rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7rem;
-  align-items: start;
-}
-#contact .section-label { color: #888; }
-#contact .section-title { color: var(--ink); }
-.contact-info {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-.contact-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #e8e4dc;
-}
-.contact-item:last-child { border-bottom: none; }
-.contact-type {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.25em;
-  color: #bbb;
-  text-transform: uppercase;
-}
-.contact-value {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.contact-value:hover { color: var(--gold); }
-
-.contact-form { margin-top: 1rem; }
-.form-group { margin-bottom: 1.5rem; }
-.form-group label {
-  display: block;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 0.6rem;
-}
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  border: 1px solid #e0ddd8;
-  background: var(--white);
-  font-family: var(--sans);
-  font-size: 0.9rem;
-  color: var(--ink);
-  outline: none;
-  transition: border-color 0.2s;
-  appearance: none;
-}
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus { border-color: var(--ink); }
-.form-group textarea { height: 120px; resize: none; }
-.form-group select { cursor: none; }
-.form-submit {
-  width: 100%;
-  padding: 1rem;
-  background: var(--ink);
-  color: var(--white);
-  border: none;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: none;
-  transition: background 0.25s;
-}
-.form-submit:hover { background: #222; }
-.form-success {
-  display: none;
-  padding: 1rem;
-  background: #f0fdf4;
-  border: 1px solid #86efac;
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  color: #166534;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-/* ── SOCIALS BAR ── */
-.socials-bar {
-  background: var(--gold);
-  padding: 2rem 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.socials-label {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.socials-links {
-  display: flex;
-  gap: 2rem;
-}
-.socials-links a {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  transition: border-color 0.2s;
-}
-.socials-links a:hover { border-color: var(--ink); }
-
-/* ── FOOTER ── */
-footer {
-  background: var(--fashion-bg);
-  padding: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.footer-logo {
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  color: var(--white);
-  text-transform: uppercase;
-}
-.footer-logo span { color: var(--gold); }
-.footer-copy {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.25);
-}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── MARQUEE ── */
-.marquee-wrap {
-  background: var(--gold);
-  overflow: hidden;
-  padding: 0.8rem 0;
-}
-.marquee-track {
-  display: flex;
-  gap: 0;
-  animation: marquee 20s linear infinite;
-  width: max-content;
-}
-.marquee-item {
-  display: flex;
-  align-items: center;
-  gap: 2.5rem;
-  padding: 0 2.5rem;
-  flex-shrink: 0;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.marquee-dot { opacity: 0.4; }
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  nav { padding: 1.2rem 1.5rem; }
-  .nav-links { display: none; }
-  #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
-  .fashion-intro { grid-template-columns: 1fr; }
-  .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 1px; }
-  .cat-tile-icon { font-size: 1.4rem; }
-  .products-grid { grid-template-columns: 1fr 1fr; }
-  .tech-layout { grid-template-columns: 1fr; gap: 3rem; }
-  .services-grid { grid-template-columns: 1fr; }
-  .dp-grid { grid-template-columns: 1fr; }
-  .testimonials-inner { grid-template-columns: 1fr; }
-  .t-card { flex: 0 0 85vw; }
-  .order-strip { grid-template-columns: 1fr; gap: 2rem; }
-  .order-steps { flex-wrap: wrap; gap: 1rem; }
-  .socials-bar { flex-direction: column; gap: 1.5rem; text-align: center; }
-  footer { flex-direction: column; gap: 1rem; text-align: center; }
-  body { cursor: auto; }
-  .cursor, .cursor-ring { display: none; }
-  section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
-  .dp-header { grid-template-columns: 1fr; }
-  .about-stats { grid-template-columns: 1fr 1fr; }
-}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-block:24px 8px}
+  .hero-art{max-width:420px;width:100%;margin:0 auto}
+  .collections{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .promise .wrap,.contact{grid-template-columns:1fr 1fr}
+  .mbox{grid-template-columns:1fr}
+  .mbox .ph{min-height:240px}
+}
+@media (max-width:520px){
+  .search{display:none}
+  .search.show{display:flex}
+  .bar{justify-content:space-between}
+  .collections{grid-template-columns:repeat(2,1fr)}
+  .collections .col:last-child{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<div class="util"><div class="wrap">
+  <span>Pre-order closes Friday 8 PM · WhatsApp <a href="https://wa.me/256788358758" target="_blank" rel="noopener">0788 358 758</a></span>
+  <nav aria-label="Quick links"><button data-act="track">Track order</button><button data-act="request">Shop any store</button><button data-act="gift">Gift cards</button><button data-jump="faq">FAQ</button></nav>
+</div></div>
 
-<!-- Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top" aria-label="Sorah home">Sorah<small>Aesthetic Finds</small></a>
+      <div class="search" id="searchBox">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search bodysuits, blazers, sets…" aria-label="Search products">
+      </div>
+      <div style="display:flex;gap:2px">
+        <button class="icon-btn" id="searchToggle" aria-label="Search" style="display:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+        <button class="icon-btn" id="wishBtn" aria-label="Wishlist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="count" id="wishCount" hidden>0</span></button>
+        <button class="icon-btn" id="bagBtn" aria-label="Shopping bag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="count" id="bagCount" hidden>0</span></button>
+      </div>
+    </div>
+    <nav class="cats" id="cats" aria-label="Categories"></nav>
+  </div>
+</header>
 
-<!-- Nav -->
-<nav id="mainNav">
-  <a href="#hero" class="nav-logo">S<span>orah</span></a>
-  <ul class="nav-links">
-    <li><a href="#fashion">Fashion</a></li>
-    <li><a href="#tech">Tech</a></li>
-    <li><a href="#digital">Digital Products</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Women's fashion · Kampala</div>
+        <h1>Pieces you won't find on every <em>corner</em></h1>
+        <p>Hand-picked from SHEIN, PLT, Fashion Nova, Amazon and more. Pre-order what you love, pay a deposit, and we bring it to you.</p>
+        <div class="hero-actions">
+          <button class="btn" data-jump="shop">Shop the drop</button>
+          <button class="btn ghost" data-act="request">Shop any store</button>
+          <button class="btn ghost" data-act="track">Track my order</button>
+        </div>
+        <div class="how">
+          <div><b>1 · Pick</b>Add items to your bag</div>
+          <div><b>2 · Pre-order</b>Send it on WhatsApp</div>
+          <div><b>3 · Receive</b>Delivered in 2–3 weeks</div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="tag"><span class="eyebrow">This week</span><b>The Blazer Edit</b></div>
+        <svg viewBox="0 0 200 240" id="heroSvg"></svg>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="head"><div><div class="eyebrow">Collections</div><h2>Shop by mood</h2></div></div>
+      <div class="collections" id="collections"></div>
+    </section>
+
+    <section class="block" id="shop">
+      <div class="head">
+        <div><div class="eyebrow" id="shopEyebrow">Best sellers</div><h2 id="shopTitle">What everyone's pre-ordering</h2></div>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:400">Sort
+          <select id="sort" style="width:auto;padding:6px 10px">
+            <option value="pop">Popular</option><option value="new">Newest</option>
+            <option value="low">Price: low to high</option><option value="high">Price: high to low</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="block" id="newin">
+      <div class="head"><div><div class="eyebrow">Just landed</div><h2>New in</h2></div><button class="link" data-filter="__new">View all</button></div>
+      <div class="grid" id="newGrid"></div>
+    </section>
+
+    <section class="block" id="services">
+      <div class="head"><div><div class="eyebrow">How we help</div><h2>More than a pre-order shop</h2></div></div>
+      <div class="svc">
+        <article><div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"/></svg></div><h3>Weekly drops</h3><p>Pieces we've picked and checked, posted every week. Pre-order before Friday's close.</p><button class="link" data-jump="shop">Shop the drop</button></article>
+        <article><div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></div><h3>Shop any store</h3><p>Send a link from SHEIN, PLT, Temu, Amazon, Fashion Nova or AliExpress. We quote the delivered price first.</p><button class="link" data-act="request">Send a link</button></article>
+        <article><div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><h3>Doorstep delivery</h3><p>Safe Boda across Kampala, bus courier upcountry, or pick up from us.</p><button class="link" data-act="track">Track an order</button></article>
+        <article><div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1s6 1 6 1 6 2 6-1-4-3-6 1"/></svg></div><h3>Gift cards</h3><p>Let her choose her own finds. Cards from UGX 50,000, sent by WhatsApp.</p><button class="link" data-act="gift">Buy a gift card</button></article>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="head"><div><div class="eyebrow">How it works</div><h2>From link to your door</h2></div></div>
+      <ol class="steps">
+        <li><b>Send your pick</b><span>Add drop items to your bag, or send us any store link.</span></li>
+        <li><b>Get your full price</b><span>We confirm sizing, the delivered price and the delivery fee before you pay.</span></li>
+        <li><b>Pay the deposit</b><span>50% by Mobile Money. We buy when the order closes on Friday.</span></li>
+        <li><b>Track and receive</b><span>Follow your order with your reference. Pay the balance on arrival.</span></li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <div class="head"><div><div class="eyebrow">Pricing</div><h2>No surprise fees</h2></div></div>
+      <div class="plans">
+        <div class="plan feature"><div class="eyebrow">Sorah drops</div><div class="big">Price on the tag</div>
+          <ul><li>Sourcing, shipping and customs already included</li><li>Only the local delivery fee is added</li><li>50% deposit, balance on arrival</li></ul>
+          <button class="btn" data-jump="shop">Browse the drop</button></div>
+        <div class="plan"><div class="eyebrow">Any-store shopping</div><div class="big">Item + service fee + shipping</div>
+          <ul><li>Service fee from 10% of the item total</li><li>Shipping charged by weight, quoted upfront</li><li>You approve the full quote before we buy</li></ul>
+          <button class="btn ghost" data-act="request">Get a quote</button></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="head"><div><div class="eyebrow">Customer love</div><h2>What Sorah girls say</h2></div><a class="link" href="https://instagram.com/sorah_ug" target="_blank" rel="noopener">See more on Instagram</a></div>
+      <div class="revs">
+        <div class="rev"><span class="stars">★★★★★</span>Add a real customer review here, from your Instagram DMs, WhatsApp or Google.<b>Customer name · Area</b></div>
+        <div class="rev"><span class="stars">★★★★★</span>Add a real customer review here, from your Instagram DMs, WhatsApp or Google.<b>Customer name · Area</b></div>
+        <div class="rev"><span class="stars">★★★★★</span>Add a real customer review here, from your Instagram DMs, WhatsApp or Google.<b>Customer name · Area</b></div>
+      </div>
+    </section>
+
+    <section class="block" id="faq">
+      <div class="head"><div><div class="eyebrow">FAQ</div><h2>Questions before you order</h2></div></div>
+      <div class="faq">
+        <details><summary>How long does delivery take?</summary><p>Orders close every Friday at 8 PM. Your items usually reach Kampala 2–3 weeks later, and we deliver within a day or two of arrival.</p></details>
+        <details><summary>How do I pay?</summary><p>Pay a 50% deposit by MTN Mobile Money or Airtel Money to confirm your pre-order. You pay the balance and delivery fee when your order arrives.</p></details>
+        <details><summary>Can you buy from a store that's not on this site?</summary><p>Yes. Send the product link with your size and colour. We reply with the full delivered price, and only buy once you approve it.</p></details>
+        <details><summary>What if it doesn't fit?</summary><p>Overseas stores don't accept returns from Uganda, so send your measurements before ordering. We'll check the store's size chart with you.</p></details>
+        <details><summary>Is there anything you can't bring in?</summary><p>We can't ship power banks, lithium batteries, flammable items or liquids over 100ml. Ask us if you're unsure about an item.</p></details>
+        <details><summary>How do I track my order?</summary><p>Every order gets a reference like SOR-AB12C. Tap Track order and enter it, or send it to us on WhatsApp.</p></details>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="cta"><div class="eyebrow">Ready when you are</div><h2>Seen something you <em>love</em>?</h2><p class="note" style="margin:0;max-width:44ch">Send us the link and we'll handle the rest, from checkout abroad to your doorstep.</p>
+        <div class="hero-actions" style="justify-content:center"><button class="btn" data-act="request">Send a link</button><a class="btn ghost" href="https://wa.me/256788358758" target="_blank" rel="noopener">Chat on WhatsApp</a></div></div>
+    </section>
+  </div>
+
+  <div class="promise"><div class="wrap">
+    <div><b>Pre-order pricing</b><span>Prices include sourcing, shipping and customs.</span></div>
+    <div><b>50% deposit</b><span>Pay the balance when your order lands.</span></div>
+    <div><b>Mobile Money</b><span>MTN MoMo and Airtel Money accepted.</span></div>
+    <div><b>Size help</b><span>Send your measurements and we'll check the fit.</span></div>
+  </div></div>
+
+  <div class="wrap" id="contact">
+    <div class="contact">
+      <div><h4>Order on WhatsApp</h4><p><a href="https://wa.me/256788358758" target="_blank" rel="noopener">0788 358 758</a></p><button class="copy" data-copy="0788358758">Copy number</button></div>
+      <div><h4>Instagram</h4><p><a href="https://instagram.com/sorah_ug" target="_blank" rel="noopener">@sorah_ug</a></p><p class="note">New drops posted every week.</p></div>
+      <div><h4>Order cycle</h4><p>Orders close Friday 8 PM</p><p class="note">Next shipment arrives 2–3 weeks later.</p></div>
+      <div><h4>Delivery</h4><p>Kampala: Safe Boda / pickup</p><p class="note">Upcountry via bus courier.</p></div>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Sorah · Aesthetic Finds</span><span>Pre-order fashion for women, from Kampala</span></div></footer>
+
+<nav class="tabbar" aria-label="Shortcuts">
+  <button data-jump="shop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10l8-6 8 6v10H4z"/></svg>Shop</button>
+  <button data-act="request"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Any store</button>
+  <button data-act="track"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Track</button>
+  <button data-act="bag"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Bag<span class="count" id="tabCount" hidden>0</span></button>
+  <button data-jump="contact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v11H8l-4 4z"/></svg>Contact</button>
 </nav>
 
-<!-- Hero -->
-<section id="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-bg-glow"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Fashion &nbsp;·&nbsp; Technology &nbsp;·&nbsp; Kampala</p>
-    <h1 class="hero-title">S<em>orah</em></h1>
-    <p class="hero-sub">Where style meets intelligence</p>
-    <div class="hero-ctas">
-      <a href="#fashion" class="btn-gold">Shop Fashion</a>
-      <a href="#tech" class="btn-outline">Hire for Tech</a>
-    </div>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
+<!-- bag drawer -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="bag" aria-label="Shopping bag" aria-hidden="true">
+  <div class="dhead"><h2 id="bagTitle">Your bag</h2><button class="icon-btn" data-close aria-label="Close bag">✕</button></div>
+  <div class="dbody" id="bagBody"></div>
+  <div class="dfoot" id="bagFoot"></div>
+</aside>
 
-<!-- Marquee -->
-<div class="marquee-wrap">
-  <div class="marquee-track" id="marqueeTrack">
-    <div class="marquee-item">Fashion Preorders <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">IT Consulting <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Digital Security <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Sorah Ug <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Data Analytics <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Women's Fashion <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Digital Products <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Kampala Uganda <span class="marquee-dot">◆</span></div>
-    <!-- duplicate for seamless loop -->
-    <div class="marquee-item">Fashion Preorders <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">IT Consulting <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Digital Security <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Sorah Ug <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Data Analytics <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Women's Fashion <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Digital Products <span class="marquee-dot">◆</span></div>
-    <div class="marquee-item">Kampala Uganda <span class="marquee-dot">◆</span></div>
-  </div>
-</div>
+<!-- product modal -->
+<div class="modal" id="modal" hidden><div class="mbox" role="dialog" aria-modal="true" id="mbox"></div></div>
+<div class="toast" id="toast" hidden></div>
 
-<!-- About -->
-<section id="about">
-  <div class="reveal">
-    <p class="section-label" style="color:var(--gold)">— About Sorah</p>
-    <h2 class="section-title" style="color:var(--white)">Two worlds.<br><em>One vision.</em></h2>
-    <p class="about-text">
-      Sorah is a Kampala-based creative and technology brand built by a woman who refused to choose between style and substance. <strong>On one side, a women's fashion preorder business</strong> that delivers curated, quality pieces with care and intentionality. <strong>On the other, an IT consultancy</strong> — specialising in digital security, data analytics, and systems that actually work for real people.
-    </p>
-    <p class="about-text" style="margin-top:1rem">
-      Both sides of Sorah share the same DNA: <strong>precision, purpose, and the belief that excellence is non-negotiable</strong> — whether in what you wear or how you protect your data.
-    </p>
-  </div>
-  <div class="about-stats reveal">
-    <div class="stat-block">
-      <div class="stat-num">3+</div>
-      <div class="stat-lbl">Years building</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">100+</div>
-      <div class="stat-lbl">Clients served</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">2</div>
-      <div class="stat-lbl">Worlds in one brand</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">KLA</div>
-      <div class="stat-lbl">Based in Kampala</div>
-    </div>
-  </div>
-</section>
+<script>
+const WA = "256788358758";
+const UGX = n => "UGX " + n.toLocaleString("en-UG");
+const tints = ["#f3dfdc","#e9dce8","#f4e6d8","#dfe6e0","#e6e0f0","#f6dede","#e8e2d6","#dde4ec"];
 
-<div class="world-divider"></div>
+/* simple garment silhouettes, drawn in a 200x240 box */
+const SHAPES = {
+  dress:'<path d="M78 20h44l6 40-10 6 30 150H52L82 66l-10-6z"/><path d="M86 20c4 14 24 14 28 0" fill="none" stroke="var(--s2)" stroke-width="3"/>',
+  bodysuit:'<path d="M70 24c10 10 50 10 60 0l14 6-6 40 8 64c-10 30-26 46-46 52-20-6-36-22-46-52l8-64-6-40z"/><path d="M86 170c6 8 22 8 28 0" fill="none" stroke="var(--s2)" stroke-width="3"/>',
+  blazer:'<path d="M70 22h60l34 26-10 120h-24l-2 50H72l-2-50H46L36 48z"/><path d="M100 50 82 24M100 50l18-26M100 50v168" fill="none" stroke="var(--s2)" stroke-width="3"/><circle cx="108" cy="120" r="4" fill="var(--s2)"/>',
+  shorts:'<path d="M56 60h88l12 110h-46l-10-60-10 60H44z"/><path d="M56 76h88" fill="none" stroke="var(--s2)" stroke-width="3"/>',
+  top:'<path d="M74 40c8 14 44 14 52 0l40 22-14 30-16-8v96H64V84l-16 8-14-30z"/>',
+  set:'<path d="M72 18c8 10 48 10 56 0l12 8-6 50H66l-6-50z"/><path d="M66 92h68l14 130h-40l-8-70-8 70H52z"/>',
+  lingerie:'<path d="M58 40c4 30 14 44 42 44s38-14 42-44l-6-2c-6 20-18 30-36 30S70 58 64 38z"/><path d="M60 120h80l-14 50c-8 8-44 8-52 0z"/><path d="M100 84v-2" stroke="var(--s2)" stroke-width="3"/>',
+  bag:'<path d="M50 90h100l-8 110H58z"/><path d="M72 90c0-40 56-40 56 0" fill="none" stroke="var(--s)" stroke-width="8"/>',
+  heels:'<path d="M40 150c30 0 60-30 80-40 20 0 38 10 44 30l-4 20h-16l-4 50h-8l-4-50H52c-10 0-16-4-12-10z"/>'
+};
+const svg = (shape, c1, c2) => `<svg viewBox="0 0 200 240" aria-hidden="true" style="--s:${c1};--s2:${c2}"><g fill="${c1}">${SHAPES[shape]}</g></svg>`;
 
-<!-- Fashion -->
-<section id="fashion">
-  <div class="fashion-intro reveal">
-    <div>
-      <p class="section-label" style="color:var(--gold)">— Sorah Fashion</p>
-      <h2 class="section-title" style="color:var(--white)">Curated for the<br><em>bold woman.</em></h2>
-      <p style="color:rgba(255,255,255,0.5);font-size:0.95rem;line-height:1.8;margin-top:1.5rem">
-        Quality women's fashion on preorder — every piece sourced to fit you, no excess, no waste. New items drop weekly. DM to order.
-      </p>
-    </div>
-    <div class="fashion-intro-right">
-      <a href="https://instagram.com/sorah_ug" target="_blank">Shop on Instagram &nbsp;→</a>
-    </div>
-  </div>
+const CATS = ["Bodysuits","Dresses","Blazers","Two-piece sets","Denim & shorts","Tops","Lingerie","Bags & shoes"];
+const P = [
+ {id:1,n:"Sculpt Square-Neck Long Sleeve Bodysuit",c:"Bodysuits",s:"bodysuit",col:"#2b1f24",src:"SHEIN",p:65000,was:75000,sz:["XS","S","M","L","XL"],pop:98,nw:0},
+ {id:2,n:"Ribbed Halter Bodysuit — Mocha",c:"Bodysuits",s:"bodysuit",col:"#7a5444",src:"PLT",p:70000,sz:["S","M","L","XL"],pop:90,nw:5},
+ {id:3,n:"Oversized Linen-Blend Blazer — Ivory",c:"Blazers",s:"blazer",col:"#efe6d6",src:"SHEIN",p:120000,sz:["S","M","L","XL","2XL"],pop:95,nw:9},
+ {id:4,n:"Double-Breasted Boyfriend Blazer — Black",c:"Blazers",s:"blazer",col:"#2b1f24",src:"Amazon",p:145000,was:165000,sz:["S","M","L","XL"],pop:88,nw:2},
+ {id:5,n:"Satin Cowl-Neck Slip Midi Dress",c:"Dresses",s:"dress",col:"#a8546b",src:"PLT",p:110000,sz:["XS","S","M","L"],pop:93,nw:7},
+ {id:6,n:"Ruched Bodycon Mini Dress — Emerald",c:"Dresses",s:"dress",col:"#2f6b55",src:"Fashion Nova",p:95000,sz:["S","M","L","XL","1X"],pop:84,nw:10},
+ {id:7,n:"High-Waist Ripped Denim Shorts",c:"Denim & shorts",s:"shorts",col:"#6f8fb4",src:"SHEIN",p:60000,sz:["26","28","30","32","34"],pop:91,nw:1},
+ {id:8,n:"Mom-Fit Denim Shorts — Washed Black",c:"Denim & shorts",s:"shorts",col:"#3e3a40",src:"Temu",p:55000,sz:["S","M","L","XL"],pop:80,nw:6},
+ {id:9,n:"Plissé Top & Wide-Leg Pants Set — Sage",c:"Two-piece sets",s:"set",col:"#8fa38a",src:"SHEIN",p:125000,sz:["S","M","L","XL","2XL"],pop:89,nw:11},
+ {id:10,n:"Knit Crop & Maxi Skirt Set — Chocolate",c:"Two-piece sets",s:"set",col:"#5b3a2e",src:"PLT",p:140000,was:160000,sz:["XS","S","M","L"],pop:86,nw:8},
+ {id:11,n:"Lace Balconette Lingerie Set — Wine",c:"Lingerie",s:"lingerie",col:"#7a2338",src:"Amazon",p:75000,sz:["32B","34B","34C","36C","38D"],pop:87,nw:4},
+ {id:12,n:"Mesh Bralette & Brief Set — Blush",c:"Lingerie",s:"lingerie",col:"#d99aa6",src:"SHEIN",p:55000,sz:["S","M","L","XL"],pop:78,nw:12},
+ {id:13,n:"Off-Shoulder Ribbed Top — White",c:"Tops",s:"top",col:"#f7f3ef",src:"Temu",p:40000,sz:["S","M","L","XL"],pop:82,nw:3},
+ {id:14,n:"Puff-Sleeve Corset Top — Rose",c:"Tops",s:"top",col:"#c97a8a",src:"SHEIN",p:58000,sz:["XS","S","M","L"],pop:85,nw:13},
+ {id:15,n:"Structured Mini Tote — Tan",c:"Bags & shoes",s:"bag",col:"#b4875a",src:"AliExpress",p:85000,sz:["One size"],pop:83,nw:14},
+ {id:16,n:"Pointed Slingback Heels — Nude",c:"Bags & shoes",s:"heels",col:"#c9a58b",src:"Amazon",p:115000,sz:["37","38","39","40","41"],pop:79,nw:15}
+];
+P.forEach((x,i)=>x.tint=tints[i%tints.length]);
+const accent = c => (["#efe6d6","#f7f3ef"].includes(c) ? "#b9a89a" : "rgba(255,255,255,.55)");
 
-  <!-- Cycle banner -->
-  <div class="cycle-banner reveal">
-    <span class="cycle-text">⬤ &nbsp; Preorder Cycle — Now Open</span>
-    <span class="cycle-date">New items weekly &nbsp;·&nbsp; Delivery: 2–3 weeks after order</span>
-  </div>
+/* state (cart + wishlist remembered on this device only) */
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+let cart = load("sorah.cart",[]);    // {id,size,qty}
+let wish = load("sorah.wish",[]);
+let filter = null, query = "", sortBy = "pop";
+const $ = s => document.querySelector(s);
 
-  <!-- Category Grid -->
-  <div class="cat-grid reveal" id="catGrid">
-    <div class="cat-tile active" data-cat="dresses">
-      <div class="cat-tile-inner">
-        <div class="cat-tile-icon">👗</div>
-        <div class="cat-tile-name">Dresses</div>
-        <div class="cat-tile-count">2 items</div>
-      </div>
-    </div>
-    <div class="cat-tile" data-cat="sets">
-      <div class="cat-tile-inner">
-        <div class="cat-tile-icon">🧣</div>
-        <div class="cat-tile-name">Sets</div>
-        <div class="cat-tile-count">2 items</div>
-      </div>
-    </div>
-    <div class="cat-tile" data-cat="shoes">
-      <div class="cat-tile-inner">
-        <div class="cat-tile-icon">👠</div>
-        <div class="cat-tile-name">Shoes</div>
-        <div class="cat-tile-count">1 item</div>
-      </div>
-    </div>
-    <div class="cat-tile" data-cat="bags">
-      <div class="cat-tile-inner">
-        <div class="cat-tile-icon">👜</div>
-        <div class="cat-tile-name">Bags</div>
-        <div class="cat-tile-count">2 items</div>
-      </div>
-    </div>
-    <div class="cat-tile" data-cat="jewellery">
-      <div class="cat-tile-inner">
-        <div class="cat-tile-icon">💍</div>
-        <div class="cat-tile-name">Jewellery</div>
-        <div class="cat-tile-count">1 item</div>
-      </div>
-    </div>
-  </div>
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
-  <!-- DRESSES -->
-  <div class="cat-panel active" id="cat-dresses">
-    <div class="cat-panel-header">
-      <span class="cat-panel-title">Dresses</span>
-      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
-    </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">👗</div><div class="ph-text">Add product photo</div></div>
-          <span class="product-badge">New</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Satin Midi Dress</div>
-          <div class="product-sizes"><span class="size-chip">XS</span><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 180,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">👗</div><div class="ph-text">Add product photo</div></div>
-          <span class="product-badge">Limited</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Ruched Mini Dress</div>
-          <div class="product-sizes"><span class="size-chip">XS</span><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 155,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="product-card" style="background:transparent;border:1px dashed rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;min-height:200px">
-        <div style="font-size:1.5rem;opacity:0.1">+</div>
-        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.2em;color:rgba(255,255,255,0.1);text-transform:uppercase">More dropping weekly</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETS -->
-  <div class="cat-panel" id="cat-sets">
-    <div class="cat-panel-header">
-      <span class="cat-panel-title">Sets</span>
-      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
-    </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">🧣</div><div class="ph-text">Add product photo</div></div>
-          <span class="product-badge">Bestseller</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Linen Co-ord Set</div>
-          <div class="product-sizes"><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 220,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">🧣</div><div class="ph-text">Add product photo</div></div>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Blazer & Wide Leg Set</div>
-          <div class="product-sizes"><span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 280,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="product-card" style="background:transparent;border:1px dashed rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;min-height:200px">
-        <div style="font-size:1.5rem;opacity:0.1">+</div>
-        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.2em;color:rgba(255,255,255,0.1);text-transform:uppercase">More dropping weekly</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SHOES -->
-  <div class="cat-panel" id="cat-shoes">
-    <div class="cat-panel-header">
-      <span class="cat-panel-title">Shoes</span>
-      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
-    </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">👠</div><div class="ph-text">Add product photo</div></div>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Block Heel Mules</div>
-          <div class="product-sizes"><span class="size-chip">36</span><span class="size-chip">37</span><span class="size-chip">38</span><span class="size-chip">39</span><span class="size-chip">40</span><span class="size-chip">41</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 130,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="empty-state">
-        <p>More shoes coming soon.</p>
-        <span>DM to request a style</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- BAGS -->
-  <div class="cat-panel" id="cat-bags">
-    <div class="cat-panel-header">
-      <span class="cat-panel-title">Bags</span>
-      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
-    </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">👜</div><div class="ph-text">Add product photo</div></div>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Mini Croc Tote</div>
-          <div class="product-sizes"><span class="size-chip">One Size</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 95,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">👛</div><div class="ph-text">Add product photo</div></div>
-          <span class="product-badge">Coming Soon</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Quilted Chain Bag</div>
-          <div class="product-sizes"><span class="size-chip">One Size</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 120,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Notify Me</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- JEWELLERY -->
-  <div class="cat-panel" id="cat-jewellery">
-    <div class="cat-panel-header">
-      <span class="cat-panel-title">Jewellery</span>
-      <span class="cat-panel-sub">Preorder open · DM @sorah_ug to order</span>
-    </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-card-img">
-          <div class="img-placeholder"><div class="ph-icon">💍</div><div class="ph-text">Add product photo</div></div>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Gold Layered Necklace Set</div>
-          <div class="product-sizes"><span class="size-chip">One Size</span></div>
-          <div class="product-footer">
-            <div class="product-price">UGX 45,000</div>
-            <a href="https://instagram.com/sorah_ug" target="_blank" class="product-cta">Order via DM</a>
-          </div>
-        </div>
-      </div>
-      <div class="empty-state">
-        <p>More jewellery dropping weekly.</p>
-        <span>Rings, earrings, bracelets & more</span>
-      </div>
-    </div>
-  </div>
-
-
-</section>>
-
-<!-- Order Strip -->
-<div class="order-strip">
-  <div class="order-title">How to<br><em style="font-style:italic">Order</em></div>
-  <div class="order-steps">
-    <div class="order-step">
-      <div class="step-num">01</div>
-      <div class="step-text">DM on Instagram</div>
-    </div>
-    <span class="step-arrow">→</span>
-    <div class="order-step">
-      <div class="step-num">02</div>
-      <div class="step-text">Choose your items</div>
-    </div>
-    <span class="step-arrow">→</span>
-    <div class="order-step">
-      <div class="step-num">03</div>
-      <div class="step-text">Pay via MoMo</div>
-    </div>
-    <span class="step-arrow">→</span>
-    <div class="order-step">
-      <div class="step-num">04</div>
-      <div class="step-text">We deliver to you</div>
-    </div>
-  </div>
-  <div class="order-cta-wrap">
-    <a href="https://instagram.com/sorah_ug" target="_blank">Shop Now</a>
-  </div>
-</div>
-
-<!-- Tech -->
-<section id="tech">
-  <p class="section-label reveal" style="color:var(--electric)">— Sorah Tech</p>
-  <h2 class="section-title reveal" style="color:var(--ink)">Technology that<br><em>works for you.</em></h2>
-
-  <div class="tech-layout">
-    <div class="tech-intro reveal">
-      <p>IT solutions for businesses, NGOs, and individuals who need systems that actually hold up. From digital security training to data analytics — delivered with clarity, not jargon.</p>
-      <p style="margin-top:1rem">Certified in digital security (CISCO), data analytics (DataCamp), and digital marketing (Google). Previously supporting WFP and UNHCR beneficiary data systems. Available for freelance and consulting engagements.</p>
-      <div class="tech-badge">Available for hire — Remote &amp; Kampala</div>
-      <div style="margin-top:2rem">
-        <a href="#contact" class="btn-gold" style="display:inline-block">Work with me</a>
-      </div>
-    </div>
-    <div class="services-grid reveal">
-      <div class="service-card">
-        <div class="service-icon">🔐</div>
-        <div class="service-name">Digital Security</div>
-        <div class="service-desc">Security audits, staff training, and system hardening for organisations handling sensitive data.</div>
-        <div class="service-rate">From UGX 300,000 / session</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📊</div>
-        <div class="service-name">Data Analytics</div>
-        <div class="service-desc">Clean, analyse, and visualise your data. Dashboards, reports, and insights that drive decisions.</div>
-        <div class="service-rate">From UGX 500,000 / project</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">💻</div>
-        <div class="service-name">IT Consulting</div>
-        <div class="service-desc">Systems review, process optimisation, tools implementation. Practical solutions, not theory.</div>
-        <div class="service-rate">From UGX 200,000 / hr</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📱</div>
-        <div class="service-name">Digital Marketing</div>
-        <div class="service-desc">Strategy, content systems, and analytics for brands that want online presence that converts.</div>
-        <div class="service-rate">From UGX 800,000 / month</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Digital Products -->
-<section id="digital">
-  <div class="dp-header reveal">
-    <div>
-      <p class="section-label">— Digital Products</p>
-      <h2 class="section-title">Knowledge you can<br><em>buy and use today.</em></h2>
-    </div>
-    <div>
-      <p>Professional guides, templates, and toolkits built from real experience — for freelancers, business owners, and anyone building something of their own.</p>
-    </div>
-  </div>
-
-  <div class="dp-grid reveal">
-    <div class="dp-card">
-      <div class="dp-card-accent" style="background:linear-gradient(90deg,#0EA5E9,#38BDF8)"></div>
-      <div class="dp-num">001</div>
-      <div class="dp-icon">🔐</div>
-      <div class="dp-name">Digital Security Starter Kit</div>
-      <div class="dp-desc">7 sections, 10 checklists, free tools guide. Plain-English security for individuals and small businesses.</div>
-      <div class="dp-footer">
-        <div class="dp-price">UGX 15,000</div>
-        <a href="#contact" class="dp-btn">Get it →</a>
-      </div>
-    </div>
-    <div class="dp-card">
-      <div class="dp-card-accent" style="background:linear-gradient(90deg,#E11D48,#FB7185)"></div>
-      <div class="dp-num">002</div>
-      <div class="dp-icon">📱</div>
-      <div class="dp-name">Social Media Content Kit</div>
-      <div class="dp-desc">30-day post plan, 5 caption frameworks, hashtag strategy, and hook starters for any business.</div>
-      <div class="dp-footer">
-        <div class="dp-price">UGX 20,000</div>
-        <a href="#contact" class="dp-btn">Get it →</a>
-      </div>
-    </div>
-    <div class="dp-card">
-      <div class="dp-card-accent" style="background:linear-gradient(90deg,#7C3AED,#A78BFA)"></div>
-      <div class="dp-num">003</div>
-      <div class="dp-icon">📘</div>
-      <div class="dp-name">Online Business Guide</div>
-      <div class="dp-desc">8-step guide from idea to first sale. Includes business model selection, pricing, and launch strategy.</div>
-      <div class="dp-footer">
-        <div class="dp-price">UGX 18,000</div>
-        <a href="#contact" class="dp-btn">Get it →</a>
-      </div>
-    </div>
-    <div class="dp-card">
-      <div class="dp-card-accent" style="background:linear-gradient(90deg,#c9a84c,#e8d5a3)"></div>
-      <div class="dp-num">004</div>
-      <div class="dp-icon">📋</div>
-      <div class="dp-name">Freelance Proposal Templates</div>
-      <div class="dp-desc">9 word-for-word templates covering cold outreach, proposals, onboarding, invoicing, and project close.</div>
-      <div class="dp-footer">
-        <div class="dp-price">UGX 25,000</div>
-        <a href="#contact" class="dp-btn">Get it →</a>
-      </div>
-    </div>
-    <div class="dp-card">
-      <div class="dp-card-accent" style="background:linear-gradient(90deg,#16A34A,#4ADE80)"></div>
-      <div class="dp-num">005</div>
-      <div class="dp-icon">📊</div>
-      <div class="dp-name">Business Tracker (Excel)</div>
-      <div class="dp-desc">5-sheet workbook: Sales Log, Expenses, Monthly Summary, Inventory, and Goals tracker. Formulas included.</div>
-      <div class="dp-footer">
-        <div class="dp-price">UGX 22,000</div>
-        <a href="#contact" class="dp-btn">Get it →</a>
-      </div>
-    </div>
-    <div class="dp-card" style="border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:300px;">
-      <div style="font-size:2rem;margin-bottom:1rem;opacity:0.3">+</div>
-      <div class="dp-name" style="opacity:0.4;font-size:1rem">More coming soon</div>
-      <div class="dp-desc" style="opacity:0.4;margin-top:0.5rem">AI Prompt Guides, PLR bundles and more in the works.</div>
-      <a href="#contact" class="dp-btn" style="margin-top:1.5rem">Get notified</a>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section id="testimonials">
-  <div class="testimonials-inner">
-    <div class="reveal">
-      <p class="section-label">— Testimonials</p>
-      <h2 class="section-title" style="color:var(--white)">What<br>clients<br><em>say.</em></h2>
-      <div class="slider-controls" style="margin-top:3rem">
-        <button class="slider-btn" id="prevBtn">←</button>
-        <button class="slider-btn" id="nextBtn">→</button>
-      </div>
-    </div>
-    <div class="testimonial-slider reveal">
-      <div style="overflow:hidden">
-        <div class="testimonial-cards" id="tCards">
-          <div class="t-card">
-            <div class="t-quote">The quality of the pieces I've ordered from Sorah has been consistently excellent. The preorder process is smooth and she keeps you updated throughout. My go-to for fashion in Kampala.</div>
-            <div class="t-author">Amara N.</div>
-            <div class="t-role">Fashion client · Kampala</div>
-          </div>
-          <div class="t-card">
-            <div class="t-quote">She trained our entire team on digital security in a way that actually made sense. No jargon, just practical steps we could implement immediately. Our systems are genuinely safer now.</div>
-            <div class="t-author">David O.</div>
-            <div class="t-role">IT consulting client · NGO sector</div>
-          </div>
-          <div class="t-card">
-            <div class="t-quote">I bought the Social Media Content Kit and it completely changed how I plan my posts. I now have a system. The 30-day plan alone was worth triple what I paid.</div>
-            <div class="t-author">Grace K.</div>
-            <div class="t-role">Digital product customer</div>
-          </div>
-          <div class="t-card">
-            <div class="t-quote">Working with Sorah on our data systems was one of the best decisions we made this year. Professional, thorough, and delivered exactly on time. Will definitely hire again.</div>
-            <div class="t-author">Sarah M.</div>
-            <div class="t-role">Data analytics client</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<section id="contact">
-  <div class="reveal">
-    <p class="section-label">— Get in Touch</p>
-    <h2 class="section-title">Let's work<br><em>together.</em></h2>
-    <div class="contact-info" style="margin-top:3rem">
-      <div class="contact-item">
-        <span class="contact-type">Instagram (Fashion)</span>
-        <a href="https://instagram.com/sorah_ug" class="contact-value" target="_blank">@sorah_ug</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-type">WhatsApp</span>
-        <a href="https://wa.me/256700000000" class="contact-value">+256 700 000 000</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-type">Email</span>
-        <a href="/cdn-cgi/l/email-protection#3c54595050537c4f534e5d5412495b" class="contact-value"><span class="__cf_email__" data-cfemail="1078757c7c7f50637f6271783e6577">[email&#160;protected]</span></a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-type">For IT / Tech Work</span>
-        <a href="https://upwork.com" class="contact-value" target="_blank">Upwork Profile →</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-type">Location</span>
-        <span class="contact-value" style="cursor:default">Kampala, Uganda</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="contact-form reveal">
-    <h3 style="font-family:var(--serif);font-size:1.4rem;font-weight:300;margin-bottom:2rem;color:var(--ink)">Send a message</h3>
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" id="fname" placeholder="e.g. Amara Nalwoga">
-    </div>
-    <div class="form-group">
-      <label>Email or WhatsApp</label>
-      <input type="text" id="fcontact" placeholder="email or +256...">
-    </div>
-    <div class="form-group">
-      <label>I'm interested in</label>
-      <select id="fservice">
-        <option value="">— Select —</option>
-        <option>Fashion / Preorder</option>
-        <option>IT Consulting</option>
-        <option>Digital Security Training</option>
-        <option>Data Analytics</option>
-        <option>Digital Marketing</option>
-        <option>Digital Products</option>
-        <option>Something else</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Message</label>
-      <textarea id="fmsg" placeholder="Tell me a bit about what you need..."></textarea>
-    </div>
-    <button class="form-submit" onclick="submitForm()">Send Message</button>
-    <div class="form-success" id="formSuccess">
-      ✓ &nbsp; Message received! I'll be in touch within 24 hours.
-    </div>
-  </div>
-</section>
-
-<!-- Socials -->
-<div class="socials-bar">
-  <span class="socials-label">Find Sorah</span>
-  <div class="socials-links">
-    <a href="https://instagram.com/sorah_ug" target="_blank">Instagram</a>
-    <a href="#" target="_blank">Pinterest</a>
-    <a href="#" target="_blank">Facebook</a>
-    <a href="#" target="_blank">Threads</a>
-    <a href="#" target="_blank">WhatsApp</a>
-    <a href="#" target="_blank">Upwork</a>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer>
-  <div class="footer-logo">S<span>orah</span></div>
-  <div class="footer-copy">© 2026 Sorah · Fashion & Technology · Kampala, Uganda</div>
-</footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── Cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top  = my + 'px';
-});
-function animRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
-  requestAnimationFrame(animRing);
+/* categories */
+function renderCats(){
+  const nav=$("#cats");
+  nav.innerHTML=["All","New in","Sale",...CATS].map(c=>{
+    const key=c==="All"?null:c==="New in"?"__new":c==="Sale"?"__sale":c;
+    return `<button data-filter="${key??""}" aria-pressed="${filter===key}">${c}</button>`}).join("");
 }
-animRing();
-document.querySelectorAll('a,button,.product-card,.service-card,.dp-card,.slider-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
-    ring.style.opacity = '0';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    ring.style.opacity = '0.6';
-  });
-});
-
-// ── Nav scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// ── Reveal on scroll
-const reveals = document.querySelectorAll('.reveal');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); }
-  });
-}, { threshold: 0.12 });
-reveals.forEach(r => obs.observe(r));
-
-// ── Testimonial slider
-let tIdx = 0;
-const tCards = document.getElementById('tCards');
-const totalSlides = 4;
-function updateSlider() {
-  tCards.style.transform = `translateX(calc(-${tIdx * 50}% - ${tIdx * 0.75}rem))`;
+function renderCollections(){
+  const picks=[["Blazers",3],["Two-piece sets",9],["Dresses",5],["Bodysuits",1],["Lingerie",11]];
+  $("#collections").innerHTML=picks.map(([c,id])=>{const x=P.find(p=>p.id===id);const n=P.filter(p=>p.c===c).length;
+    return `<button class="col" data-filter="${c}"><div class="ph" style="background:${x.tint}">${svg(x.s,x.col,accent(x.col))}</div><span>${c}</span><small>${n} styles</small></button>`}).join("");
 }
-document.getElementById('nextBtn').addEventListener('click', () => {
-  tIdx = (tIdx + 1) % (totalSlides - 1);
-  updateSlider();
-});
-document.getElementById('prevBtn').addEventListener('click', () => {
-  tIdx = (tIdx - 1 + totalSlides - 1) % (totalSlides - 1);
-  updateSlider();
-});
+function card(x){
+  const off=x.was?Math.round((1-x.p/x.was)*100):0;
+  const isNew=x.nw>=11;
+  return `<article class="card">
+    <button class="ph" data-open="${x.id}" style="background:${x.tint}" aria-label="View ${x.n}">${svg(x.s,x.col,accent(x.col))}
+      ${off?`<span class="badge sale">−${off}%</span>`:isNew?`<span class="badge">New</span>`:""}</button>
+    <h3>${x.n}</h3><div class="src">via ${x.src} · pre-order</div>
+    <div class="price">${UGX(x.p)}${x.was?`<s>${UGX(x.was)}</s>`:""}</div>
+    <button class="add" data-open="${x.id}">Choose size</button>
+  </article>`;
+}
+function list(){
+  let r=P.slice();
+  if(filter==="__new") r=r.filter(x=>x.nw>=8);
+  else if(filter==="__sale") r=r.filter(x=>x.was);
+  else if(filter==="__wish") r=r.filter(x=>wish.includes(x.id));
+  else if(filter) r=r.filter(x=>x.c===filter);
+  if(query){const q=query.toLowerCase();r=r.filter(x=>(x.n+" "+x.c+" "+x.src).toLowerCase().includes(q))}
+  const s={pop:(a,b)=>b.pop-a.pop,new:(a,b)=>b.nw-a.nw,low:(a,b)=>a.p-b.p,high:(a,b)=>b.p-a.p}[sortBy];
+  return r.sort(s);
+}
+function renderGrid(){
+  const r=list();
+  const titles={__new:["Just landed","New in"],__sale:["Promotions","On sale"],__wish:["Saved","Your wishlist"]};
+  const [e,t]=query?["Search",`Results for “${query}”`]:filter?(titles[filter]||["Category",filter]):["Best sellers","What everyone's pre-ordering"];
+  $("#shopEyebrow").textContent=e;$("#shopTitle").textContent=t;
+  $("#grid").innerHTML=r.length?r.map(card).join(""):`<p class="empty">${filter==="__wish"?"Tap the heart on any item to save it here.":"Nothing matches yet. Try another word, or request the item on WhatsApp."}</p>`;
+  $("#newin").hidden=!!(filter||query);
+  renderCats();
+}
+function renderNew(){$("#newGrid").innerHTML=P.slice().sort((a,b)=>b.nw-a.nw).slice(0,4).map(card).join("")}
 
-// ── Contact form
-function submitForm() {
-  const name    = document.getElementById('fname').value.trim();
-  const contact = document.getElementById('fcontact').value.trim();
-  const service = document.getElementById('fservice').value;
-  const msg     = document.getElementById('fmsg').value.trim();
-  if (!name || !contact || !service) {
-    alert('Please fill in your name, contact, and area of interest.');
-    return;
+/* product modal */
+let cur=null,curSize=null,lastFocus=null;
+function openProduct(id){
+  cur=P.find(x=>x.id===id);curSize=cur.sz.length===1?cur.sz[0]:null;lastFocus=document.activeElement;
+  const w=wish.includes(cur.id);
+  $("#mbox").innerHTML=`<div class="ph" style="background:${cur.tint}">${svg(cur.s,cur.col,accent(cur.col))}
+      <button class="heart" id="mHeart" aria-pressed="${w}" aria-label="Save to wishlist" style="left:10px;right:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+      <button class="close" data-close aria-label="Close">✕</button></div>
+    <div class="info">
+      <div class="eyebrow">${cur.c} · via ${cur.src}</div>
+      <h2>${cur.n}</h2>
+      <div class="price" style="font-size:18px">${UGX(cur.p)}${cur.was?`<s>${UGX(cur.was)}</s>`:""}</div>
+      <div><div style="font-size:13px;font-weight:500;margin-bottom:6px">Size</div><div class="sizes" id="sizes">${cur.sz.map(s=>`<button data-size="${s}" aria-pressed="${s===curSize}">${s}</button>`).join("")}</div></div>
+      <label>Note for this item (optional)<input id="itemNote" placeholder="e.g. colour preference, height for length"></label>
+      <div class="err" id="sizeErr" hidden>Pick a size to continue.</div>
+      <button class="btn block" id="addBtn">Add to bag · ${UGX(cur.p)}</button>
+      <p class="note">Pre-order item. 50% deposit secures it; arrives in 2–3 weeks. Sizing runs ${cur.src==="SHEIN"||cur.src==="Temu"?"small, so consider one size up":"true to size"}.</p>
+    </div>`;
+  $("#modal").hidden=false;$("#scrim").hidden=false;$("#mbox").querySelector(".close").focus();
+}
+function closeAll(){
+  $("#modal").hidden=true;$("#bag").classList.remove("open");$("#bag").setAttribute("aria-hidden","true");$("#scrim").hidden=true;
+  if(lastFocus&&lastFocus.focus)lastFocus.focus();
+}
+function addToBag(){
+  if(!curSize){$("#sizeErr").hidden=false;return}
+  const note=$("#itemNote").value.trim();
+  const ex=cart.find(l=>l.id===cur.id&&l.size===curSize&&(l.note||"")===note);
+  ex?ex.qty++:cart.push({id:cur.id,size:curSize,qty:1,note});
+  save("sorah.cart",cart);updateCounts();closeAll();toast("Added to your bag");
+}
+function toggleWish(id){
+  wish=wish.includes(id)?wish.filter(x=>x!==id):[...wish,id];save("sorah.wish",wish);updateCounts();
+  if(filter==="__wish")renderGrid();
+}
+
+/* bag + checkout */
+let step="bag";
+const sub=()=>cart.reduce((s,l)=>s+P.find(x=>x.id===l.id).p*l.qty,0);
+function openBag(s="bag"){step=s;lastFocus=document.activeElement;renderBag();$("#bag").classList.add("open");$("#bag").setAttribute("aria-hidden","false");$("#scrim").hidden=false;$("#bag").querySelector("[data-close]").focus()}
+function renderBag(){
+  const body=$("#bagBody"),foot=$("#bagFoot"),title=$("#bagTitle");
+  if(step==="request"){title.textContent="Shop any store";
+    const d=load("sorah.buyer",{});
+    body.innerHTML=`<p class="note" style="margin-top:0">Paste a product link and we'll reply with the full delivered price. Nothing is bought until you approve the quote.</p>
+      <form class="co" id="reqForm">
+      <label>Store<select id="rStore"><option>SHEIN</option><option>PrettyLittleThing</option><option>Temu</option><option>Amazon</option><option>Fashion Nova</option><option>AliExpress</option><option>Other</option></select></label>
+      <label>Product link(s)<textarea id="rLink" required placeholder="Paste one link per line, or your full cart link"></textarea></label>
+      <label>Size, colour & quantity<input id="rSize" placeholder="e.g. M, black, 2 pieces"></label>
+      <label>Your name<input id="rName" required value="${esc(d.name||"")}"></label>
+      <label>Phone (WhatsApp)<input id="rPhone" inputmode="tel" value="${esc(d.phone||"")}" placeholder="07XX XXX XXX"></label>
+      <button class="btn block" type="submit">Prepare quote request</button></form><div id="rOut"></div>`;
+    foot.innerHTML="";return}
+  if(step==="gift"){title.textContent="Gift card";
+    body.innerHTML=`<p class="note" style="margin-top:0">A Sorah gift card works on drops and any-store orders. We send it to her on WhatsApp with your message.</p>
+      <form class="co" id="giftForm">
+      <label>Amount<select id="gAmt">${[50000,100000,200000,300000,500000].map(a=>`<option value="${a}">${UGX(a)}</option>`).join("")}</select></label>
+      <label>Her name<input id="gTo" required></label>
+      <label>Her WhatsApp number<input id="gPhone" inputmode="tel" placeholder="07XX XXX XXX"></label>
+      <label>From<input id="gFrom" required></label>
+      <label>Message (optional)<textarea id="gMsg" placeholder="Happy birthday, treat yourself!"></textarea></label>
+      <button class="btn block" type="submit">Prepare gift card order</button></form><div id="rOut"></div>`;
+    foot.innerHTML="";return}
+  if(step==="track"){title.textContent="Track order";
+    const orders=load("sorah.orders",[]);
+    body.innerHTML=`<form class="co" id="trackForm"><label>Order reference<input id="tRef" required placeholder="SOR-AB12C" style="text-transform:uppercase"></label>
+      <button class="btn block" type="submit">Ask for status on WhatsApp</button></form><div id="rOut"></div>
+      <h3 style="font-size:17px;margin:22px 0 10px">Orders from this phone</h3>
+      ${orders.length?orders.slice().reverse().map(orderCard).join(""):`<p class="note">Orders you place here will show up with their expected dates.</p>`}`;
+    foot.innerHTML=`<p class="note" style="margin:0">Dates are estimates from the weekly order cycle. We confirm each stage on WhatsApp.</p>`;return}
+  if(!cart.length){title.textContent="Your bag";body.innerHTML=`<p class="empty">Your bag is empty.<br>Pick a few aesthetic finds to pre-order.</p>`;foot.innerHTML=`<button class="btn block" data-close>Keep shopping</button>`;return}
+  const s=sub(),dep=Math.ceil(s/2/1000)*1000;
+  if(step==="bag"){title.textContent=`Your bag (${cart.reduce((a,l)=>a+l.qty,0)})`;
+    body.innerHTML=cart.map((l,i)=>{const x=P.find(p=>p.id===l.id);return `<div class="line">
+      <div class="ph" style="background:${x.tint}">${svg(x.s,x.col,accent(x.col))}</div>
+      <div style="min-width:0"><h3>${x.n}</h3><small>Size ${l.size}${l.note?` · ${l.note}`:""}</small>
+        <div class="qty"><button data-q="${i}" data-d="-1" aria-label="Decrease">−</button><span>${l.qty}</span><button data-q="${i}" data-d="1" aria-label="Increase">+</button></div></div>
+      <div style="text-align:right"><div class="price" style="margin:0">${UGX(x.p*l.qty)}</div><button class="rm" data-rm="${i}">Remove</button></div></div>`}).join("");
+    foot.innerHTML=`<div class="row"><span>Subtotal</span><span>${UGX(s)}</span></div>
+      <div class="row note"><span>Deposit to confirm (50%)</span><span>${UGX(dep)}</span></div>
+      <p class="note" style="margin:0">Delivery fee is confirmed on WhatsApp based on your location.</p>
+      <button class="btn block" id="toCheckout">Checkout</button>`;
   }
-  // In production: POST to backend or Formspree/EmailJS
-  document.getElementById('formSuccess').style.display = 'block';
-  document.getElementById('fname').value = '';
-  document.getElementById('fcontact').value = '';
-  document.getElementById('fservice').value = '';
-  document.getElementById('fmsg').value = '';
-  setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 5000);
+  if(step==="checkout"){title.textContent="Checkout";
+    const d=load("sorah.buyer",{});
+    body.innerHTML=`<form class="co" id="coForm">
+      <label>Full name<input id="cName" required value="${d.name||""}" autocomplete="name"></label>
+      <label>Phone (WhatsApp)<input id="cPhone" required inputmode="tel" value="${d.phone||""}" placeholder="07XX XXX XXX" autocomplete="tel"></label>
+      <label>Delivery<select id="cDel"><option>Kampala delivery (Safe Boda)</option><option>Pickup</option><option>Upcountry (bus courier)</option></select></label>
+      <label>Area / address<input id="cArea" value="${d.area||""}" placeholder="e.g. Ntinda, near Capital Shoppers"></label>
+      <label>Deposit payment<select id="cPay"><option>MTN Mobile Money</option><option>Airtel Money</option><option>Bank transfer</option></select></label>
+      <label>Anything else?<textarea id="cNote" placeholder="Measurements, gift wrap, deadline…"></textarea></label>
+      <div class="err" id="coErr" hidden></div>
+    </form>`;
+    foot.innerHTML=`<div class="row total"><span>Total</span><span>${UGX(s)}</span></div>
+      <div class="row note"><span>Deposit now</span><span>${UGX(dep)}</span></div>
+      <button class="btn block" id="placeOrder">Place pre-order on WhatsApp</button>
+      <button class="btn ghost block" id="backBag">Back to bag</button>`;
+  }
+  if(step==="done"){title.textContent="Almost done";
+    body.innerHTML=`<p style="margin-top:0">Your order message is ready. Open WhatsApp to send it, or copy it and send to <b>0788 358 758</b>.</p>
+      <div class="msg" id="orderMsg">${esc(orderText)}</div>
+      <p class="note">We'll reply with the delivery fee and deposit payment details. Keep your reference to track this order under Track order.</p>`;
+    foot.innerHTML=`<a class="btn block" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(orderText)}">Open WhatsApp</a>
+      <button class="btn ghost block" data-copy-msg>Copy order message</button>
+      <button class="link" id="clearBag" style="justify-self:center">Order sent — clear my bag</button>`;
+  }
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let orderText="";
+const fmtD=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+function nextClose(t){const d=new Date(t);let add=(5-d.getDay()+7)%7;if(add===0&&d.getHours()>=20)add=7;d.setDate(d.getDate()+add);d.setHours(20,0,0,0);return d}
+function orderCard(o){
+  const close=nextClose(o.t),now=Date.now(),day=864e5;
+  const st=[["Order sent",new Date(o.t)],["Order closes & we buy",close],["Arrives in Kampala",new Date(+close+14*day),new Date(+close+21*day)],["Out for delivery",new Date(+close+16*day),new Date(+close+23*day)]];
+  return `<div class="ord"><header><b>${o.ref}</b><span>${UGX(o.total)}</span></header><div class="note">${o.items}</div>
+    <div class="stages">${st.map(([l,a,b])=>`<div class="stage${now>=+a?" on":""}"><span><i></i>${l}</span><small>${fmtD(a)}${b?"–"+fmtD(b):""}</small></div>`).join("")}</div>
+    <a class="link" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`Hi Sorah! Please update me on order ${o.ref}.`)}">Ask for an update</a></div>`;
+}
+function showMsg(msg,label){
+  orderText=msg;
+  $("#rOut").innerHTML=`<div class="msg" id="orderMsg" style="margin-top:14px">${esc(msg)}</div>
+   <div style="display:grid;gap:8px;margin-top:10px"><a class="btn block" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(msg)}">Open WhatsApp</a><button class="btn ghost block" data-copy-msg>Copy ${label}</button></div>`;
+  $("#rOut").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function placeOrder(){
+  const v=id=>$(id).value.trim();
+  const name=v("#cName"),phone=v("#cPhone").replace(/\s+/g,"");
+  const err=$("#coErr");
+  if(!name){err.textContent="Add your name so we know who the order is for.";err.hidden=false;return}
+  if(!/^(\+?256|0)7\d{8}$/.test(phone)){err.textContent="Enter a Ugandan phone number, like 0772 123 456.";err.hidden=false;return}
+  save("sorah.buyer",{name,phone,area:v("#cArea")});
+  const ref="SOR-"+Date.now().toString(36).slice(-5).toUpperCase();
+  const s=sub();
+  const lines=cart.map(l=>{const x=P.find(p=>p.id===l.id);return `• ${x.n} — Size ${l.size} × ${l.qty} = ${UGX(x.p*l.qty)}${l.note?`\n   Note: ${l.note}`:""}`}).join("\n");
+  orderText=`Hi Sorah! 🌸 I'd like to pre-order:\n\n${lines}\n\nTotal: ${UGX(s)}\nDeposit (50%): ${UGX(Math.ceil(s/2/1000)*1000)}\n\nName: ${name}\nPhone: ${phone}\nDelivery: ${v("#cDel")}${v("#cArea")?` — ${v("#cArea")}`:""}\nPaying deposit via: ${v("#cPay")}${v("#cNote")?`\nNotes: ${v("#cNote")}`:""}\n\nOrder ref: ${ref}`;
+  const orders=load("sorah.orders",[]);
+  orders.push({ref,t:Date.now(),total:s,items:cart.map(l=>`${P.find(p=>p.id===l.id).n} (${l.size}) ×${l.qty}`).join(", ")});
+  save("sorah.orders",orders.slice(-20));
+  step="done";renderBag();
+}
+async function copyText(t,okMsg){try{await navigator.clipboard.writeText(t);toast(okMsg)}catch{const el=$("#orderMsg");if(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast("Select and copy the text")}}
+function updateCounts(){
+  const n=cart.reduce((a,l)=>a+l.qty,0);["#bagCount","#tabCount"].forEach(s=>{$(s).textContent=n;$(s).hidden=!n});
+  $("#wishCount").textContent=wish.length;$("#wishCount").hidden=!wish.length;
 }
 
-// ── Category Grid
-document.querySelectorAll('.cat-tile').forEach(tile => {
-  tile.addEventListener('click', () => {
-    const cat = tile.dataset.cat;
-    document.querySelectorAll('.cat-tile').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
-    tile.classList.add('active');
-    document.getElementById('cat-' + cat).classList.add('active');
-    document.getElementById('cat-' + cat).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
+/* events */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,a,[data-close]");if(!t)return;
+  if(t.matches("[data-filter]")){const f=t.dataset.filter||null;filter=filter===f&&f?null:f;query="";$("#q").value="";renderGrid();$("#shop").scrollIntoView({behavior:"smooth",block:"start"});return}
+  if(t.dataset.open){openProduct(+t.dataset.open);return}
+  if(t.matches("[data-close]")){closeAll();return}
+  if(t.dataset.size){curSize=t.dataset.size;$("#sizeErr").hidden=true;document.querySelectorAll("#sizes button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.size===curSize))}
+  if(t.id==="addBtn")addToBag();
+  if(t.id==="mHeart"){toggleWish(cur.id);t.setAttribute("aria-pressed",wish.includes(cur.id));toast(wish.includes(cur.id)?"Saved to wishlist":"Removed from wishlist")}
+  if(t.id==="bagBtn")openBag("bag");
+  if(t.id==="wishBtn"){filter="__wish";query="";renderGrid();$("#shop").scrollIntoView({behavior:"smooth"})}
+  if(t.dataset.act){if(t.closest(".drawer")){step=t.dataset.act;renderBag()}else openBag(t.dataset.act);return}
+  if(t.dataset.jump){closeAll();$("#"+t.dataset.jump).scrollIntoView({behavior:"smooth"})}
+  if(t.dataset.q!==undefined){const l=cart[+t.dataset.q];l.qty+=+t.dataset.d;if(l.qty<1)cart.splice(+t.dataset.q,1);save("sorah.cart",cart);updateCounts();renderBag()}
+  if(t.dataset.rm!==undefined){cart.splice(+t.dataset.rm,1);save("sorah.cart",cart);updateCounts();renderBag()}
+  if(t.id==="toCheckout"){step="checkout";renderBag()}
+  if(t.id==="backBag"){step="bag";renderBag()}
+  if(t.id==="placeOrder")placeOrder();
+  if(t.matches("[data-copy-msg]"))copyText(orderText,"Order message copied");
+  if(t.dataset.copy)copyText(t.dataset.copy,"Number copied");
+  if(t.id==="clearBag"){cart=[];save("sorah.cart",cart);updateCounts();closeAll();toast("Thank you! We'll confirm on WhatsApp")}
+  if(t.id==="searchToggle"){$("#searchBox").classList.toggle("show");$("#q").focus()}
 });
+$("#scrim").addEventListener("click",closeAll);
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeAll()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+document.addEventListener("submit",e=>{
+  e.preventDefault();const v=id=>$(id).value.trim();
+  if(e.target.id==="reqForm"){
+    showMsg(`Hi Sorah! 🌸 Please quote this ${v("#rStore")} order:\n${v("#rLink")}\n\nSize/colour/qty: ${v("#rSize")||"—"}\nName: ${v("#rName")}${v("#rPhone")?`\nPhone: ${v("#rPhone")}`:""}`,"quote request");
+  }
+  if(e.target.id==="giftForm"){
+    showMsg(`Hi Sorah! 🎁 I'd like a gift card:\n\nAmount: ${UGX(+v("#gAmt"))}\nFor: ${v("#gTo")}${v("#gPhone")?` (${v("#gPhone")})`:""}\nFrom: ${v("#gFrom")}${v("#gMsg")?`\nMessage: ${v("#gMsg")}`:""}`,"gift card order");
+  }
+  if(e.target.id==="trackForm"){
+    showMsg(`Hi Sorah! Please update me on order ${v("#tRef").toUpperCase()}.`,"status request");
+  }
+});
+$("#q").addEventListener("input",e=>{query=e.target.value.trim();renderGrid()});
+$("#sort").addEventListener("change",e=>{sortBy=e.target.value;renderGrid()});
+const mq=matchMedia("(max-width:520px)");const st=()=>$("#searchToggle").style.display=mq.matches?"grid":"none";mq.addEventListener("change",st);st();
 
-const sections = document.querySelectorAll('section[id]');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 200) current = s
+/* boot */
+$("#heroSvg").outerHTML=svg("blazer","#5e3446","rgba(255,255,255,.5)").replace("<svg",'<svg id="heroSvg"');
+renderCollections();renderGrid();renderNew();updateCounts();
+</script>
+</body>
+</html>
